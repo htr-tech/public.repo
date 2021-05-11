@@ -1,7 +1,7 @@
 # Simple Python Spammer using pyautogui
 
-# Python2 : python2 formatter.py <text> <count>
-# Python3 : python3 formatter.py <text> <count>
+# Python2 : python2 spammer.py <text> <count>
+# Python3 : python3 spammer.py <text> <count>
 
 import sys
 import time
