@@ -1,0 +1,39 @@
+{
+
+    "workbench.colorTheme": "Hack The Box",
+    "workbench.iconTheme": "material-icon-theme",
+    "material-icon-theme.folders.color": "#7cb342",
+
+    "editor.fontFamily": "'Fantasque Sans Mono Regular', 'JetBrains Mono Regular', 'mononoki Regular'",
+    "editor.fontSize": 15,
+    "editor.fontWeight": "300",
+    "editor.lineHeight": 20,
+    "editor.letterSpacing": 0.5,
+
+    "window.title": "${dirty}${activeEditorShort}${separator}${folderName}${separator}Code",
+    "window.titleSeparator": " - ",
+    "editor.wordWrap": "on",
+    "workbench.editor.enablePreview": false,
+    "editor.fontLigatures": true,
+    "editor.formatOnPaste": true,
+    "editor.cursorBlinking": "smooth",
+
+    "update.mode": "none",
+    "explorer.confirmDelete": false,
+    "workbench.startupEditor": "none",
+    "workbench.preferredDarkColorTheme": "Monokai Dimmed",
+    "workbench.welcomePage.experimental.videoTutorials": "off",
+    "workbench.tips.enabled": false,
+
+    "notebook.lineNumbers": "on",
+    "notebook.compactView": false,
+    "notebook.showFoldingControls": "always",
+    "notebook.cellToolbarVisibility": "hover",
+    "notebook.consolidatedRunButton": true,
+    "jupyter.pylanceHandlesNotebooks": true,
+
+    "liveServer.settings.CustomBrowser": "chrome:PrivateMode",
+    "liveServer.settings.donotVerifyTags": true,
+    "liveServer.settings.donotShowInfoMsg": true
+
+}
