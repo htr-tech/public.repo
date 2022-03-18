@@ -2,6 +2,8 @@
 
     "workbench.colorTheme": "Hack The Box",
     "workbench.iconTheme": "material-icon-theme",
+    // "workbench.colorTheme": "Monokai Pro (Filter Spectrum)",
+    // "workbench.iconTheme": "Monokai Pro (Filter Spectrum) Icons",
     "material-icon-theme.folders.color": "#7cb342",
 
     "editor.fontFamily": "'Fantasque Sans Mono Regular', 'JetBrains Mono Regular', 'mononoki Regular'",
