@@ -117,6 +117,11 @@
     <td><a href="https://marketplace.visualstudio.com/items?itemName=monokai.theme-monokai-pro-vscode">Marketplace</a></td>
     <td><a href="https://monokai.pro">Homepage</a></td>
   </tr>
+  <tr>
+    <td>Tokyo Night</td>
+    <td><a href="https://marketplace.visualstudio.com/items?itemName=enkia.tokyo-night">Marketplace</a></td>
+    <td><a href="https://github.com/enkia/tokyo-night-vscode-theme">Github</a></td>
+  </tr>
 </table>
 
 <br>
