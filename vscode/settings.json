@@ -6,8 +6,8 @@
     // "workbench.iconTheme": "Monokai Pro (Filter Spectrum) Icons",
     "material-icon-theme.folders.color": "#7cb342",
 
-    "editor.fontFamily": "'Fantasque Sans Mono Regular', 'JetBrains Mono Regular', 'mononoki Regular'",
-    "editor.fontSize": 15,
+    "editor.fontFamily": "'Rec Mono Casual', 'Fantasque Sans Mono Regular', 'JetBrains Mono Regular', 'mononoki Regular'",
+    "editor.fontSize": 14,
     "editor.fontWeight": "300",
     "editor.lineHeight": 20,
     "editor.letterSpacing": 0.5,
@@ -26,6 +26,7 @@
     "workbench.preferredDarkColorTheme": "Monokai Dimmed",
     "workbench.welcomePage.experimental.videoTutorials": "off",
     "workbench.tips.enabled": false,
+    "security.workspace.trust.untrustedFiles": "open",
 
     "notebook.lineNumbers": "on",
     "notebook.compactView": false,
