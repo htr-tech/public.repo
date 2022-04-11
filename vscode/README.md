@@ -143,6 +143,10 @@
     <td>Mononoki</td>
     <td><a href="https://github.com/madmalik/mononoki">Github</a></td>
   </tr>
+  <tr>
+    <td>Recursive</td>
+    <td><a href="https://github.com/arrowtype/recursive">Github</a></td>
+  </tr>
 </table>
 
 <!--
