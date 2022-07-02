@@ -122,6 +122,11 @@
     <td><a href="https://marketplace.visualstudio.com/items?itemName=enkia.tokyo-night">Marketplace</a></td>
     <td><a href="https://github.com/enkia/tokyo-night-vscode-theme">Github</a></td>
   </tr>
+  <tr>
+    <td>Copilot Theme</td>
+    <td><a href="https://marketplace.visualstudio.com/items?itemName=BenjaminBenais.copilot-theme">Marketplace</a></td>
+    <td><a href="https://github.com/benjaminbenais/copilot-theme">Github</a></td>
+  </tr>
 </table>
 
 <br>
