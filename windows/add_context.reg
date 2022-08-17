@@ -1,0 +1,127 @@
+Windows Registry Editor Version 5.00
+
+; Add to Context Menu
+
+; Print
+[HKEY_CLASSES_ROOT\SystemFileAssociations\image\shell\print]
+"ProgrammaticAccessOnly"=-
+
+[HKEY_CLASSES_ROOT\batfile\shell\print]
+"ProgrammaticAccessOnly"=-
+
+[HKEY_CLASSES_ROOT\cmdfile\shell\print]
+"ProgrammaticAccessOnly"=-
+
+[HKEY_CLASSES_ROOT\docxfile\shell\print]
+"ProgrammaticAccessOnly"=-
+
+[HKEY_CLASSES_ROOT\fonfile\shell\print]
+"ProgrammaticAccessOnly"=-
+
+[HKEY_CLASSES_ROOT\htmlfile\shell\print]
+"ProgrammaticAccessOnly"=-
+
+[HKEY_CLASSES_ROOT\inffile\shell\print]
+"ProgrammaticAccessOnly"=-
+
+[HKEY_CLASSES_ROOT\inifile\shell\print]
+"ProgrammaticAccessOnly"=-
+
+[HKEY_CLASSES_ROOT\JSEFile\Shell\Print]
+"ProgrammaticAccessOnly"=-
+
+[HKEY_CLASSES_ROOT\otffile\shell\print]
+"ProgrammaticAccessOnly"=-
+
+[HKEY_CLASSES_ROOT\pfmfile\shell\print]
+"ProgrammaticAccessOnly"=-
+
+[HKEY_CLASSES_ROOT\regfile\shell\print]
+"ProgrammaticAccessOnly"=-
+
+[HKEY_CLASSES_ROOT\rtffile\shell\print]
+"ProgrammaticAccessOnly"=-
+
+[HKEY_CLASSES_ROOT\ttcfile\shell\print]
+"ProgrammaticAccessOnly"=-
+
+[HKEY_CLASSES_ROOT\ttffile\shell\print]
+"ProgrammaticAccessOnly"=-
+
+[HKEY_CLASSES_ROOT\txtfile\shell\print]
+"ProgrammaticAccessOnly"=-
+
+[HKEY_CLASSES_ROOT\VBEFile\Shell\Print]
+"ProgrammaticAccessOnly"=-
+
+[HKEY_CLASSES_ROOT\VBSFile\Shell\Print]
+"ProgrammaticAccessOnly"=-
+
+[HKEY_CLASSES_ROOT\WSFFile\Shell\Print]
+"ProgrammaticAccessOnly"=-
+
+; Share
+[HKEY_CLASSES_ROOT\*\shellex\ContextMenuHandlers\ModernSharing]
+@="{e2bf9676-5f8f-435c-97eb-11607a5bedf7}"
+
+; Restore previous version
+[HKEY_CLASSES_ROOT\AllFilesystemObjects\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}]
+[HKEY_CLASSES_ROOT\CLSID\{450D8FBA-AD25-11D0-98A8-0800361B1103}\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}]
+[HKEY_CLASSES_ROOT\Directory\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}]
+[HKEY_CLASSES_ROOT\Drive\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}]
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer]
+"NoPreviousVersionsPage"=-
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer]
+"NoPreviousVersionsPage"=-
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\PreviousVersions]
+"DisableLocalPage"=-
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer]
+"NoPreviousVersionsPage"=-
+
+[HKEY_CURRENT_USER\Software\Policies\Microsoft\PreviousVersions]
+"DisableLocalPage"=-
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked]
+"{596AB062-B4D2-4215-9F74-E9109B0A8153}"=-
+
+; Customize this Folder (Desktop)
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}\PropertyBag]
+"NoCustomize"=dword:00000000
+
+; Include in Library
+[HKEY_CLASSES_ROOT\Folder\ShellEx\ContextMenuHandlers\Library Location]
+@="{3dad6c5d-2167-4cae-9914-f99e41c12cfa}"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Folder\ShellEx\ContextMenuHandlers\Library Location]
+@="{3dad6c5d-2167-4cae-9914-f99e41c12cfa}"
+
+; Pin to Quick Access
+[-HKEY_CLASSES_ROOT\Folder\shell\pintohome]
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Folder\shell\pintohome]
+
+[HKEY_CLASSES_ROOT\Folder\shell\pintohome]
+"MUIVerb"="@shell32.dll,-51377"
+"AppliesTo"="System.ParsingName:<>\"::{679f85cb-0220-4080-b29b-5540cc05aab6}\""
+
+[HKEY_CLASSES_ROOT\Folder\shell\pintohome\command]
+"DelegateExecute"="{b455f46e-e4af-4035-b0a4-cf18d2f6f28e}"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Folder\shell\pintohome]
+"MUIVerb"="@shell32.dll,-51377"
+"AppliesTo"="System.ParsingName:<>\"::{679f85cb-0220-4080-b29b-5540cc05aab6}\""
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Folder\shell\pintohome\command]
+"DelegateExecute"="{b455f46e-e4af-4035-b0a4-cf18d2f6f28e}"
+
+; Cast to Device
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked]
+"{7AD84985-87B4-4a16-BE58-8B72A5B390F7}"=-
+
+; Give access to
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked]
+"{f81e9010-6ea4-11ce-a7ff-00aa003ca9f6}"=-
+
