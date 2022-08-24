@@ -1,0 +1,131 @@
+# ssh-keygen(1) completion                                 -*- shell-script -*-
+
+_ssh_keygen()
+{
+    local cur prev words cword
+    _init_completion -n := || return
+
+    case $prev in
+        -*[aCIJjMNPSVWz])
+            return
+            ;;
+        -*b)
+            local -a sizes=()
+            case "${words[*]}" in
+                *" -t dsa"?( *))
+                    sizes=(1024)
+                    ;;
+                *" -t ecdsa"?( *))
+                    sizes=(256 384 521)
+                    ;;
+                *" -t rsa"?( *))
+                    sizes=(1024 2048 3072 4096)
+                    ;;
+            esac
+            ((${#sizes[@]})) &&
+                COMPREPLY=($(compgen -W '"${sizes[@]}"' -- "$cur"))
+            return
+            ;;
+        -*E)
+            COMPREPLY=($(compgen -W 'md5 sha256' -- "$cur"))
+            return
+            ;;
+        -*[FR])
+            # TODO: trim this down to actual entries in known hosts files
+            _known_hosts_real -- "$cur"
+            return
+            ;;
+        -*[Dw])
+            _filedir so
+            return
+            ;;
+        -*[fGKsT])
+            _filedir
+            return
+            ;;
+        -*m)
+            COMPREPLY=($(compgen -W 'PEM PKCS8 RFC4716' -- "$cur"))
+            return
+            ;;
+        -*n)
+            [[ ${words[*]} != *\ -*Y\ * ]] || return
+            if [[ ${words[*]} == *\ -*h\ * ]]; then
+                _known_hosts_real -- "${cur##*,}"
+                ((${#COMPREPLY[@]})) &&
+                    _comp_delimited , -W '"${COMPREPLY[@]}"'
+            else
+                _comp_delimited , -u
+            fi
+            return
+            ;;
+        -*O)
+            if [[ $cur != *=* ]]; then
+                COMPREPLY=($(compgen -W '
+                    clear critical: extension: force-command=
+                    no-agent-forwarding no-port-forwarding no-pty no-user-rc
+                    no-x11-forwarding permit-agent-forwarding
+                    permit-port-forwarding permit-pty permit-user-rc
+                    permit-X11-forwarding no-touch-required source-address=
+                    verify-required
+
+                    lines= start-line= checkpoint= memory= start= generator=
+
+                    application= challenge= device= no-touch-required resident
+                    user= write-attestation=
+                    ' -- "$cur"))
+                [[ ${COMPREPLY-} == *[:=] ]] && compopt -o nospace
+                __ltrim_colon_completions "$cur"
+            else
+                case $cur in
+                    force-command=*)
+                        compopt -o filenames
+                        COMPREPLY=($(compgen -c -- "${cur#*=}"))
+                        ;;
+                    checkpoint=* | challenge=* | write-attestation=*)
+                        cur=${cur#*=}
+                        _filedir
+                        ;;
+                    application=*([^:=]))
+                        COMPREPLY=($(compgen -W "ssh:" -- "${cur#*=}"))
+                        compopt -o nospace
+                        ;;
+                    user=*)
+                        COMPREPLY=($(compgen -u -- "${cur#*=}"))
+                        ;;
+                esac
+            fi
+            return
+            ;;
+        -*r)
+            [[ ${words[*]} != *\ -*Y\ * ]] || _filedir
+            return
+            ;;
+        -*t)
+            local protocols=$(_comp_xfunc ssh query "$1" protocol-version)
+            local types='dsa ecdsa ecdsa-sk ed25519 ed25519-sk rsa'
+            if [[ $protocols == *1* ]]; then
+                types+=' rsa1'
+            fi
+            COMPREPLY=($(compgen -W "$types" -- "$cur"))
+            return
+            ;;
+        -*Y)
+            COMPREPLY=($(compgen -W 'find-principals check-novalidate sign
+                verify' -- "$cur"))
+            return
+            ;;
+    esac
+
+    if [[ $cur == -* ]]; then
+        local opts=$(_parse_usage "$1" "-?")
+        [[ ! $opts ]] && opts=$(_parse_help "$1" "-?") # OpenSSH < 7
+        COMPREPLY=($(compgen -W "$opts" -- "$cur"))
+    fi
+
+    if [[ ${words[*]} == *\ -*s\ * ]]; then
+        _filedir pub
+    fi
+} &&
+    complete -F _ssh_keygen ssh-keygen
+
+# ex: filetype=sh
