@@ -1,6 +1,6 @@
 Windows Registry Editor Version 5.00
 
-; Add to Context Menu
+; Add Items to Windows Context Menu
 
 ; Print
 [HKEY_CLASSES_ROOT\SystemFileAssociations\image\shell\print]
@@ -191,4 +191,3 @@ Windows Registry Editor Version 5.00
   00,22,00,20,00,2f,00,46,00,6f,00,72,00,63,00,65,00,42,00,6f,00,6f,00,74,00,\
   73,00,74,00,72,00,61,00,70,00,50,00,61,00,69,00,6e,00,74,00,33,00,44,00,00,\
   00
-

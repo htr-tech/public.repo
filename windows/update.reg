@@ -38,4 +38,3 @@ Windows Registry Editor Version 5.00
 "IsConvergedUpdateStackEnabled"=dword:00000001
 "PausedFeatureDate"=hex(b):00,b4,f8,5d,02,ba,d7,01
 "PausedQualityDate"=hex(b):00,b4,f8,5d,02,ba,d7,01
-

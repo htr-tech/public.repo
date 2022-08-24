@@ -1,6 +1,6 @@
 Windows Registry Editor Version 5.00
 
-; Remove from Context Menu
+; Remove Items from Windows Context Menu
 
 ; Print
 [HKEY_CLASSES_ROOT\SystemFileAssociations\image\shell\print]
@@ -111,4 +111,4 @@ Windows Registry Editor Version 5.00
 [-HKEY_CLASSES_ROOT\SystemFileAssociations\.gif\Shell\3D Edit]
 [-HKEY_CLASSES_ROOT\SystemFileAssociations\.jpeg\Shell\3D Edit]
 [-HKEY_CLASSES_ROOT\SystemFileAssociations\.jfif\Shell\3D Edit]
-
+	

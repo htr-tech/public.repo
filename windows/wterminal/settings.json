@@ -32,24 +32,26 @@
     "copyFormatting": "none",
     "copyOnSelect": false,
     "defaultProfile": "{2ece5bfe-50ed-5f3a-ab87-5cd4baafed2b}",
-    "initialCols": 100,
-    "initialRows": 25,
+    "initialCols": 120,
+    "initialRows": 30,
+    "language": "en-US",
     "profiles": 
     {
         "defaults": 
         {
-            "backgroundImage": "C:/Users/Catz/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/bg.jpg",
+            "backgroundImage": "C:\\Users\\Catz\\AppData\\Local\\Packages\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\LocalState\\bg.jpg",
             "backgroundImageOpacity": 0.5,
             "backgroundImageStretchMode": "fill",
-            "colorScheme": "OneStar",
+            "colorScheme": "Monokai Remastered",
             "experimental.retroTerminalEffect": false,
             "font": 
             {
-                "face": "Rec Mono Casual",
-                "size": 10
+                "face": "FantasqueSansMono NF",
+                "size": 13
             },
-            "historySize": 200,
+            "historySize": 10,
             "opacity": 100,
+            "tabTitle": "Catz",
             "useAcrylic": true
         },
         "list": 
@@ -379,6 +381,8 @@
             "yellow": "#808000"
         }
     ],
-    "theme": "system",
+    "showTabsInTitlebar": true,
+    "showTerminalTitleInTitlebar": true,
+    "theme": "dark",
     "useAcrylicInTabRow": false
 }
