@@ -12,6 +12,7 @@ function utf8_($in)
 $func_main = "
 function _____(\$__I,\$__l)
 {
+	\$__l = preg_replace('/\n$/','',\$__l);
     if (sha1(\$__l) == \$__I) {
         eval(\"?>\".gzuncompress(gzinflate(base64_decode(\$__l))));
     } else { 
@@ -63,7 +64,7 @@ function S__(\$i,\$l=0,\$k=40){
 
 $en_func_one = "eval(base64_decode(\"" . utf8_(base64_encode($func_one)) . "\"));";
 
-$output = "<?php /* OBFUSCATED BY CATZ ?? */ \$__ = __FILE__;" . $en_func_one;
+$output = "<?php /* OBFUSCATED BY CATZ ?? */ error_reporting(0);\$__ = __FILE__;" . $en_func_one;
 $output .= "eval(base64_decode(S__(\$___)));";
 $output .= "eval(_____(S__(\$___,1),S__(\$___,2)));__halt_compiler();";
 $output .= $en_func_main . sha1($encoded_data) . $encoded_data;
