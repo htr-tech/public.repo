@@ -1,9 +1,7 @@
 {
 
-    "workbench.colorTheme": "Hack The Box",
+    "workbench.colorTheme": "GitHub Dark Colorblind (Beta)",
     "workbench.iconTheme": "material-icon-theme",
-    // "workbench.colorTheme": "Monokai Pro (Filter Spectrum)",
-    // "workbench.iconTheme": "Monokai Pro (Filter Spectrum) Icons",
     "material-icon-theme.folders.color": "#7cb342",
 
     "editor.fontFamily": "'Rec Mono Casual', 'Fantasque Sans Mono Regular', 'JetBrains Mono Regular', 'mononoki Regular'",
@@ -12,19 +10,20 @@
     "editor.lineHeight": 20,
     "editor.letterSpacing": 0.5,
 
+    "window.titleBarStyle": "native",
     "window.title": "${dirty}${activeEditorShort}${separator}${folderName}${separator}Code",
     "window.titleSeparator": " - ",
     "editor.wordWrap": "on",
-    "workbench.editor.enablePreview": false,
     "editor.fontLigatures": true,
-    "editor.formatOnPaste": true,
+    "editor.formatOnPaste": false,
     "editor.cursorBlinking": "smooth",
-
+    "security.workspace.trust.enabled": false,
+    
     "update.mode": "none",
     "explorer.confirmDelete": false,
     "workbench.startupEditor": "none",
-    "workbench.preferredDarkColorTheme": "Monokai Dimmed",
-    "workbench.welcomePage.experimental.videoTutorials": "off",
+    "workbench.editor.enablePreview": false,
+    "workbench.preferredDarkColorTheme": "GitHub Dark",
     "workbench.tips.enabled": false,
     "security.workspace.trust.untrustedFiles": "open",
 
@@ -37,6 +36,6 @@
 
     "liveServer.settings.CustomBrowser": "chrome:PrivateMode",
     "liveServer.settings.donotVerifyTags": true,
-    "liveServer.settings.donotShowInfoMsg": true
+    "liveServer.settings.donotShowInfoMsg": true,
 
 }
