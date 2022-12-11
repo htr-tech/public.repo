@@ -29,6 +29,7 @@
             "keys": "alt+shift+d"
         }
     ],
+    "alwaysShowTabs": false,
     "copyFormatting": "none",
     "copyOnSelect": false,
     "defaultProfile": "{2ece5bfe-50ed-5f3a-ab87-5cd4baafed2b}",
@@ -46,12 +47,13 @@
             "experimental.retroTerminalEffect": false,
             "font": 
             {
-                "face": "FantasqueSansMono NF",
-                "size": 13
+                "face": "JetBrainsMono NF",
+                "size": 11
             },
-            "historySize": 10,
+            "historySize": 20,
             "opacity": 100,
-            "tabTitle": "Catz",
+            "suppressApplicationTitle": true,
+            "tabTitle": "Terminal",
             "useAcrylic": true
         },
         "list": 
@@ -73,7 +75,7 @@
             {
                 "guid": "{2ece5bfe-50ed-5f3a-ab87-5cd4baafed2b}",
                 "hidden": false,
-                "name": "Git Bash",
+                "name": "Bash",
                 "source": "Git",
                 "startingDirectory": null
             }
@@ -381,7 +383,7 @@
             "yellow": "#808000"
         }
     ],
-    "showTabsInTitlebar": true,
+    "showTabsInTitlebar": false,
     "showTerminalTitleInTitlebar": true,
     "theme": "dark",
     "useAcrylicInTabRow": false
