@@ -87,6 +87,11 @@
     <td><a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.PowerShell">Marketplace</a></td>
     <td><a href="https://github.com/PowerShell/vscode-powershell">Github</a></td>
   </tr>
+  <tr>
+    <td>GlassIt-VSC</td>
+    <td><a href="https://marketplace.visualstudio.com/items?itemName=s-nlf-fh.glassit">Marketplace</a></td>
+    <td><a href="https://github.com/hikarin522/GlassIt-VSC">Github</a></td>
+  </tr>
 </table>
 
 <br>
@@ -101,6 +106,10 @@
     <td>Material Icon Theme</td>
     <td><a href="https://marketplace.visualstudio.com/items?itemName=PKief.material-icon-theme">Marketplace</a></td>
     <td><a href="https://github.com/PKief/vscode-material-icon-theme">Github</a></td>
+  </tr>
+    <td>Fluent Icons</td>
+    <td><a href="https://marketplace.visualstudio.com/items?itemName=miguelsolorio.fluent-icons">Marketplace</a></td>
+    <td><a href="https://github.com/miguelsolorio/vscode-fluent-icons">Github</a></td>
   </tr>
   <tr>
     <td>Github Theme</td>
@@ -126,6 +135,17 @@
     <td>Copilot Theme</td>
     <td><a href="https://marketplace.visualstudio.com/items?itemName=BenjaminBenais.copilot-theme">Marketplace</a></td>
     <td><a href="https://github.com/benjaminbenais/copilot-theme">Github</a></td>
+  </tr>
+  
+  <tr>
+    <td>OneDark Pro</td>
+    <td><a href="https://marketplace.visualstudio.com/items?itemName=zhuangtongfa.Material-theme">Marketplace</a></td>
+    <td><a href="https://github.com/Binaryify/OneDark-Pro">Github</a></td>
+  </tr>
+  <tr>
+    <td>One Monokai Theme</td>
+    <td><a href="https://marketplace.visualstudio.com/items?itemName=azemoh.one-monokai">Marketplace</a></td>
+    <td><a href="https://github.com/azemoh/vscode-one-monokai">Github</a></td>
   </tr>
 </table>
 
