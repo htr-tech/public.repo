@@ -1,11 +1,11 @@
 {
 
-    "workbench.colorTheme": "GitHub Dark Colorblind (Beta)",
+    "workbench.colorTheme": "Tomorrow Night",
     "workbench.iconTheme": "material-icon-theme",
     "material-icon-theme.folders.color": "#7cb342",
 
     "editor.fontFamily": "'Rec Mono Casual', 'Fantasque Sans Mono Regular', 'JetBrains Mono Regular', 'mononoki Regular'",
-    "editor.fontSize": 14,
+    "editor.fontSize": 17,
     "editor.fontWeight": "300",
     "editor.lineHeight": 20,
     "editor.letterSpacing": 0.5,
@@ -23,7 +23,7 @@
     "explorer.confirmDelete": false,
     "workbench.startupEditor": "none",
     "workbench.editor.enablePreview": false,
-    "workbench.preferredDarkColorTheme": "GitHub Dark",
+    "workbench.preferredDarkColorTheme": "Tomorrow Night",
     "workbench.tips.enabled": false,
     "security.workspace.trust.untrustedFiles": "open",
 
@@ -37,5 +37,10 @@
     "liveServer.settings.CustomBrowser": "chrome:PrivateMode",
     "liveServer.settings.donotVerifyTags": true,
     "liveServer.settings.donotShowInfoMsg": true,
+    "background.windowBackgrounds": [
+        "d:/Wallpaper/59.jpg"
+    ],
+    "window.menuBarVisibility": "hidden",
+    "editor.inlineSuggest.enabled": true,
 
 }

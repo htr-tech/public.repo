@@ -92,6 +92,26 @@
     <td><a href="https://marketplace.visualstudio.com/items?itemName=s-nlf-fh.glassit">Marketplace</a></td>
     <td><a href="https://github.com/hikarin522/GlassIt-VSC">Github</a></td>
   </tr>
+  <tr>
+    <td>Live Preview</td>
+    <td><a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server">Marketplace</a></td>
+    <td><a href="https://github.com/microsoft/vscode-livepreview">Github</a></td>
+  </tr>
+  <tr>
+    <td>Background</td>
+    <td><a href="https://marketplace.visualstudio.com/items?itemName=Katsute.code-background">Marketplace</a></td>
+    <td><a href="https://github.com/KatsuteDev/Background">Github</a></td>
+  </tr>
+  <tr>
+    <td>Hex Editor</td>
+    <td><a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.hexeditor">Marketplace</a></td>
+    <td><a href="https://github.com/microsoft/vscode-hexeditor">Github</a></td>
+  </tr>
+  <tr>
+    <td>Go</td>
+    <td><a href="https://marketplace.visualstudio.com/items?itemName=golang.Go">Marketplace</a></td>
+    <td><a href="https://github.com/golang/vscode-go">Github</a></td>
+  </tr>
 </table>
 
 <br>
@@ -146,6 +166,11 @@
     <td>One Monokai Theme</td>
     <td><a href="https://marketplace.visualstudio.com/items?itemName=azemoh.one-monokai">Marketplace</a></td>
     <td><a href="https://github.com/azemoh/vscode-one-monokai">Github</a></td>
+  </tr>
+  <tr>
+    <td>Tomorrow and Tomorrow Night Theme Kit</td>
+    <td><a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.Theme-TomorrowKit">Marketplace</a></td>
+    <td><a href="https://github.com/Microsoft/vscode-themes">Github</a></td>
   </tr>
 </table>
 
