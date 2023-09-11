@@ -1,0 +1,188 @@
+"""
+Description
+
+🚩 CTF CHALLENGE 0x1 🚩
+
+Name: KEYGEN
+
+Category: Find out yourself
+
+Level: Easy I Guess
+
+Format: thbd{....._.....}
+
+Hint: Every Hint is important
+
+"""
+
+
+Networking is Bliss
+
+Level: Easy I Guess
+
+#CallmeCatz
+
+
+
+Things will be great when you’re… downtown!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""""""
+
+// I think, we need a **better name** for blackhole
+
+if platform.system() == "Windows":
+
+	device_id = (subprocess.check_output("wmic csproduct get uuid", shell=True).decode().split("\n")[1].strip())
+else:
+
+	device_id = subprocess.check_output("uname -a", shell=True).decode().strip()
+
+prefix = "".join(islice((choice("abcdefghijklmnopqrstuvwxyz-_#*+!?(@") for _ in count()), 7))
+if (prefix+base64.b64encode(device_id.encode().hex().encode()).decode().replace("1", "-").replace("z", "x")+prefix) in check_DB(user_id):
+	print("Bingo???")
+
+	time.sleep(69)
+
+	print(f"Don't Forget to remove {'war'[::-1]}")
+
+
+""""""
