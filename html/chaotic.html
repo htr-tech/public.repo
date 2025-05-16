@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html>
+  <!-- 
+    CHAOTIC WORDS SOLVER
+    
+    Reason of making: Watching people using their last braincells while you 
+    casually ctrl+v a perfect answer is the ultimate power move.
+-->
+  <head>
+    <title>Mind Breaker</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+          font-family: monospace;
+          background: linear-gradient(135deg, #1d1d1d, #282928);
+          background-size: 120% 120%;
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          font-size: 18px;
+      }
+
+      .rainbow-text {
+          background: linear-gradient(45deg,
+                  #e63f3f,
+                  #df8d14,
+                  #51ee51,
+                  #5b5be9,
+                  #9b36df);
+          background-size: 300% 300%;
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+          animation: prideAnimation 8s ease infinite;
+          display: inline-block;
+          padding: 0 2px;
+      }
+
+      @keyframes prideAnimation {
+          0% {
+              background-position: 0% 50%;
+          }
+
+          50% {
+              background-position: 100% 50%;
+          }
+
+          100% {
+              background-position: 0% 50%;
+          }
+      }
+
+      .header-container {
+          display: flex;
+          justify-content: center;
+          width: 100%;
+      }
+
+      h1 {
+          text-align: center;
+          font-size: 30px;
+      }
+
+      .checkbox-container {
+          display: flex;
+          justify-content: center;
+          gap: 30px;
+          margin: 10px;
+          flex-wrap: wrap;
+          align-items: center;
+      }
+
+      .checkbox-label {
+          display: flex;
+          font-size: 17px;
+          gap: 5px;
+          align-items: center;
+      }
+
+      .checkbox-label span {
+          background: linear-gradient(45deg,
+                  #d2ff31,
+                  #48da48);
+          background-size: 300% 300%;
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+          cursor: pointer;
+
+      }
+
+      .add-pair-btn,
+      .remove-pair-btn {
+          padding: 5px 10px;
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+      }
+
+
+      .remove-pair-btn {
+          background-color: #ff5252;
+      }
+
+      .action-buttons {
+          display: flex;
+          gap: 10px;
+      }
+
+      #tba-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 10px;
+          flex-direction: column;
+          margin-bottom: 10px;
+          width: 100%;
+      }
+
+      .tba-input {
+          background-color: #252525;
+          border: 1px solid #444;
+          color: #00ff00;
+          font-family: monospace;
+          padding: 5px;
+          font-size: 15px;
+          width: 100px;
+          text-align: center;
+      }
+
+      .tba-row {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 5px;
+          width: 100%;
+          max-width: 800px;
+          justify-content: center;
+      }
+
+      .tba-pair {
+          display: flex;
+          gap: 5px;
+          flex-direction: column;
+          align-items: center;
+      }
+
+      #terminal {
+          background-color: #252525;
+          border: 1px solid #444;
+          border-radius: 5px;
+          padding: 15px;
+          height: 350px;
+          overflow-y: auto;
+          width: 90%;
+          max-width: 800px;
+          margin: 0 auto;
+      }
+
+      #output {
+          white-space: pre-wrap;
+          margin-bottom: 10px;
+      }
+
+      #input-line {
+          display: flex;
+      }
+
+      #prompt {
+          margin-right: 10px;
+          color: #00ff00;
+      }
+
+      #command-input {
+          background-color: #252525;
+          border: none;
+          color: #00ff00;
+          font-family: monospace;
+          font-size: 20px;
+          outline: none;
+          flex: 1;
+      }
+
+      .command {
+          color: #26baff;
+      }
+
+      .output {
+          color: #f0f0f0;
+          margin: 5px 0 15px 0;
+      }
+
+      .error {
+          color: #ff5252;
+      }
+
+      .help {
+          color: #ffff00;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div style="width: 100%;">
+      <div class="header-container">
+        <h1 class="rainbow-text">Chaotic Solver v2</h1>
+      </div>
+      <div class="checkbox-container">
+        <button class="remove-pair-btn" onclick="resetValues();">CLEAR</button>
+        <label class="checkbox-label">
+          <input
+            type="checkbox"
+            class="mode-checkbox"
+            name="mode"
+            value="vowel"
+          />
+          <span>Vowel</span>
+        </label>
+        <label class="checkbox-label">
+          <input
+            type="checkbox"
+            class="mode-checkbox"
+            name="mode"
+            value="consonant"
+          />
+          <span>Consonant</span>
+        </label>
+        <button id="main-add-pair-btn" class="add-pair-btn">Add</button>
+        <button id="main-remove-pair-btn" class="remove-pair-btn">
+          Remove
+        </button>
+      </div>
+      <div id="tba-container">
+        <div class="tba-row" id="tba-pairs-container">
+          <!-- Pairs will be added here side by side -->
+        </div>
+        <div class="action-buttons"></div>
+      </div>
+      <div id="terminal">
+        <div id="output"></div>
+        <div id="input-line">
+          <span id="prompt">></span>
+          <input type="text" id="command-input" autofocus />
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Terminal functionality
+      const output = document.getElementById("output");
+      const checkboxes = document.querySelectorAll(".mode-checkbox");
+      const tbaPair = document.getElementById("tba-pairs-container");
+      const addPair = document.getElementById("main-add-pair-btn");
+      const remPair = document.getElementById("main-remove-pair-btn");
+      const cmdInput = document.getElementById("command-input");
+
+      // Initialize with 3 replace boxes (default)
+      function initializePairs() {
+        tbaPair.innerHTML = "";
+        for (let i = 0; i < 3; i++) {
+          addNewPair();
+        }
+      }
+
+      // Add replace boxes
+      function addNewPair() {
+        const pairDiv = document.createElement("div");
+        pairDiv.className = "tba-pair";
+        pairDiv.innerHTML = `
+                <input type="text" class="tba-input" placeholder="Find">
+                <input type="text" class="tba-input" placeholder="Replace">
+            `;
+        tbaPair.appendChild(pairDiv);
+      }
+
+      // Remove replace boxes
+      function removePair() {
+        const pairs = document.querySelectorAll(".tba-pair");
+        if (pairs.length > 3) {
+          pairs[pairs.length - 1].remove();
+        }
+      }
+
+      // Reset all input values and terminal output
+      function resetValues() {
+        output.innerHTML = "";
+        const inputs = document.querySelectorAll(".tba-input");
+        inputs.forEach((input) => {
+          input.value = "";
+        });
+        // Uncheck checkboxes
+        checkboxes.forEach((checkbox) => {
+          checkbox.checked = false;
+        });
+      }
+
+      // Print to terminal
+      function print(line, className = "") {
+        const div = document.createElement("div");
+        div.className = className;
+        div.textContent = line;
+        output.appendChild(div);
+        output.scrollTop = output.scrollHeight;
+      }
+
+      // Copy to clipboard (result)
+      function copy(text) {
+        navigator.clipboard
+          .writeText(text)
+          .then(() => console.log(`Copied: ${text}`))
+          .catch((err) => console.error("Copy failed", err));
+      }
+
+      // Find empty replace box
+      function findEmptyPair() {
+        const pairs = document.querySelectorAll(".tba-pair");
+        for (let i = 0; i < pairs.length; i++) {
+          const findInput = pairs[i].querySelector("input:nth-child(1)");
+          const replaceInput = pairs[i].querySelector("input:nth-child(2)");
+
+          if (
+            findInput.value.trim() === "" &&
+            replaceInput.value.trim() === ""
+          ) {
+            return pairs[i];
+          }
+        }
+        return null;
+      }
+
+      // Set replace input (vowel)
+      function setVowel() {
+        const emptyPair = findEmptyPair();
+        if (emptyPair) {
+          const findInput = emptyPair.querySelector("input:nth-child(1)");
+          const replaceInput = emptyPair.querySelector("input:nth-child(2)");
+          findInput.value = "a,e,i,o,u";
+          replaceInput.focus();
+        }
+      }
+
+      // Set replace input (consonant)
+      function setConsonant() {
+        const emptyPair = findEmptyPair();
+        if (emptyPair) {
+          const findInput = emptyPair.querySelector("input:nth-child(1)");
+          const replaceInput = emptyPair.querySelector("input:nth-child(2)");
+          findInput.value = "CONSO"; // CONSO will call all the consonants
+          replaceInput.focus();
+        }
+      }
+
+      // Clear replace input (vowel/consonant)
+      function clearVowelConsonant() {
+        const pairs = document.querySelectorAll(".tba-pair");
+        pairs.forEach((pair) => {
+          const findInput = pair.querySelector("input:nth-child(1)");
+          if (findInput.value === "a,e,i,o,u" || findInput.value === "CONSO") {
+            findInput.value = "";
+            pair.querySelector("input:nth-child(2)").value = "";
+          }
+        });
+      }
+
+      // <!-- Main Replace Function -->
+
+      function replaceMain(text, pairs) {
+        let word = text.toLowerCase();
+        const replacements = [];
+
+        // Step 1: Find all occurrences of the pairs
+        // Iterate through each pair of find and replace
+        // and find all occurrences in the word
+        for (const [from, to] of pairs) {
+          let occurrence = null;
+          let actualFrom = from;
+
+          // Handle numbered occurrences (3-a)
+          const numPrefixMatch = from.match(/^(\d+)-(.+)/);
+          if (numPrefixMatch) {
+            occurrence = parseInt(numPrefixMatch[1]);
+            actualFrom = numPrefixMatch[2];
+          }
+
+          // Handler for consonants
+          if (actualFrom.toUpperCase() === "CONSO") {
+            const vowels = ["a", "e", "i", "o", "u"];
+            for (let i = 0; i < word.length; i++) {
+              if (!vowels.includes(word[i]) && word[i].match(/[a-z]/)) {
+                if (!replacements.find((r) => r.index === i)) {
+                  replacements.push({ index: i, length: 1, value: to });
+                }
+              }
+            }
+            continue;
+          }
+
+          const targets = actualFrom.includes(",")
+            ? actualFrom
+                .split(",")
+                .map((f) => f.trim())
+                .filter((f) => f)
+            : [actualFrom];
+
+          for (const target of targets) {
+            if (target.length === 1) {
+              // Single character
+              let count = 0;
+              for (let i = 0; i < word.length; i++) {
+                if (
+                  word[i] === target &&
+                  !replacements.find((r) => r.index === i)
+                ) {
+                  count++;
+                  if (!occurrence || count === occurrence) {
+                    replacements.push({ index: i, length: 1, value: to });
+                    if (occurrence) break;
+                  }
+                }
+              }
+            } else {
+              // Whole word
+              let pos = 0;
+              let count = 0;
+              while ((pos = word.indexOf(target, pos)) !== -1) {
+                if (
+                  !replacements.find(
+                    (r) =>
+                      r.index < pos + target.length && r.index + r.length > pos
+                  )
+                ) {
+                  count++;
+                  if (!occurrence || count === occurrence) {
+                    replacements.push({
+                      index: pos,
+                      length: target.length,
+                      value: to,
+                    });
+                    if (occurrence) break;
+                  }
+                  pos += target.length;
+                } else {
+                  pos++;
+                }
+              }
+            }
+          }
+        }
+
+        // Step 2: Sort replacements by index (left to right)
+        // This is important to avoid overlapping replacements
+        // and to ensure the correct order of replacements
+        replacements.sort((a, b) => a.index - b.index);
+
+        let result = "";
+        let cursor = 0;
+
+        // Step 3: Replace the found occurrences
+        // Iterate through the replacements and build the result string
+        for (const { index, length, value } of replacements) {
+          result += word.slice(cursor, index) + value;
+          cursor = index + length;
+        }
+
+        result += word.slice(cursor);
+        return result;
+      }
+
+      // <!-- // Main Replace Function -->
+
+      // Process command from terminal
+      // It takes the command input, processes it, and prints the result
+      // It also handles special commands like "clear" or "cls" and "help"
+      // It also handles the [1] suffix for flipping text
+      function processCommand(command) {
+        print(`> ${command}`, "command");
+
+        if (
+          command.toLowerCase() === "clear" ||
+          command.toLowerCase() === "cls"
+        ) {
+          output.innerHTML = "";
+          resetValues();
+          return;
+        }
+
+        if (command.toLowerCase() === "help" || command === "?") {
+          print("Enter text to process with current replacement rules", "help");
+          print("\nCommands:", "help");
+          print('"help" or "?" to get this menu', "help");
+          print('"clear" or "cls" to clear terminal', "help");
+          print('"text[1]" to flip word. Result: "txet"', "help");
+          return;
+        }
+
+        try {
+          const tFlip = command.endsWith("[1]");
+          const cleanCommand = tFlip ? command.slice(0, -3) : command;
+
+          // Flip the text if [1] was at the end
+          if (tFlip) {
+            replacedCommand = cleanCommand.split("").reverse().join("");
+            print(`Result: ${replacedCommand}`, "output");
+            copy(replacedCommand);
+            return;
+          }
+
+          const pairs = [];
+          const findInputs = document.querySelectorAll(
+            ".tba-pair input:nth-child(1)"
+          );
+          const replaceInputs = document.querySelectorAll(
+            ".tba-pair input:nth-child(2)"
+          );
+
+          for (let i = 0; i < findInputs.length; i++) {
+            const find = findInputs[i].value.trim();
+            const replace = replaceInputs[i].value.trim();
+            if (find && replace) {
+              pairs.push([find, replace]);
+            }
+          }
+
+          if (pairs.length > 0) {
+            let replacedCommand = replaceMain(cleanCommand, pairs);
+            print(`Result: ${replacedCommand}`, "output");
+            copy(replacedCommand);
+          } else {
+            print("Error: No replacement pairs", "error");
+          }
+        } catch (e) {
+          print(`Error: ${e.message}`, "error");
+        }
+      }
+
+      // Initialize pairs on load
+      initializePairs();
+
+      // Update checkbox event listener
+      checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener("change", () => {
+          if (checkbox.checked) {
+            if (checkbox.value === "vowel") {
+              setVowel();
+            } else if (checkbox.value === "consonant") {
+              setConsonant();
+            }
+          } else {
+            clearVowelConsonant();
+          }
+        });
+      });
+
+      addPair.addEventListener("click", addNewPair);
+      remPair.addEventListener("click", removePair);
+
+      // Keep focus on terminal
+      const terminal = document.getElementById("terminal");
+      terminal.addEventListener("click", (e) => {
+        if (e.target === terminal) {
+          cmdInput.focus();
+        }
+      });
+
+      // Handle input on terminal
+      cmdInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          processCommand(cmdInput.value);
+          cmdInput.value = "";
+        }
+      });
+    </script>
+  </body>
+</html>
