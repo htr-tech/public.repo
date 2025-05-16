@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Word Search Puzzle</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
@@ -17,11 +18,11 @@
         }
         .container {
             background: #fafafa;
-            padding: 20px;
+            padding: 30px;
             border-radius: 15px;
             box-shadow: 0 4px 8px rgba(107, 33, 168, 0.2);
-            max-width: 1200px;
-            width: 100%;
+            width: fit-content;
+            margin: 20px auto;
             text-align: center;
         }
         h1#title {
@@ -125,7 +126,6 @@
         .puzzle-section {
             display: none;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
             gap: 30px;
             margin-top: 20px;
@@ -136,25 +136,6 @@
             border-radius: 15px;
             box-shadow: 0 4px 8px rgba(107, 33, 168, 0.2);
             border: 2px solid #6b21a8;
-            position: relative;
-            order: 1;
-        }
-        #grid::before, #grid::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: #6b21a8;
-            clip-path: polygon(0 0, 100% 0, 0 100%);
-        }
-        #grid::before {
-            top: -2px;
-            left: -2px;
-        }
-        #grid::after {
-            bottom: -2px;
-            right: -2px;
-            clip-path: polygon(100% 100%, 0 100%, 100% 0);
         }
         #grid table {
             border-collapse: collapse;
@@ -181,32 +162,11 @@
             padding: 20px;
             border-radius: 15px;
             box-shadow: 0 4px 8px rgba(107, 33, 168, 0.2);
-            width: 100%;
-            max-width: 400px;
-            text-align: left;
-            color: #4c1d95;
-            font-size: 16px;
-            line-height: 1.6;
             border: 2px solid #6b21a8;
-            position: relative;
-            order: 2;
-        }
-        #word-list::before, #word-list::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: #6b21a8;
-            clip-path: polygon(0 0, 100% 0, 0 100%);
-        }
-        #word-list::before {
-            top: -2px;
-            left: -2px;
-        }
-        #word-list::after {
-            bottom: -2px;
-            right: -2px;
-            clip-path: polygon(100% 100%, 0 100%, 100% 0);
+            width: fit-content;
+            min-width: 150px;
+            max-width: 400px;
+            text-align: center;
         }
         #word-list strong {
             display: block;
@@ -214,12 +174,12 @@
             font-size: 18px;
             color: #4c1d95;
             font-weight: 600;
-            text-align: center;
         }
         #word-list .words {
             display: flex;
             flex-direction: column;
             gap: 10px;
+            margin-bottom: 20px;
         }
         #word-list .words span {
             background: #f3e8ff;
@@ -228,24 +188,45 @@
             color: #4c1d95;
             font-family: 'Montserrat', sans-serif;
             font-weight: 400;
+            white-space: nowrap;
         }
-        #word-list .words span:hover {
-            background: #ddd6fe;
+        .puzzle-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+        #copy-button, #download-button {
+            padding: 8px 20px;
+            background: #7c3aed;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            transition: background 0.3s;
+        }
+        #copy-button:hover, #download-button:hover {
+            background: #6d28d9;
         }
 
-        /* Desktop layout */
         @media (min-width: 768px) {
             .puzzle-section {
                 flex-direction: row;
                 align-items: flex-start;
-            }
-            #grid {
-                order: 1;
+                gap: 40px;
             }
             #word-list {
-                width: 200px;
-                order: 2;
+                align-self: flex-start;
             }
+        }
+        .container.capture {
+            animation: flash 0.5s;
+        }
+        @keyframes flash {
+            0% { background: #fafafa; }
+            50% { background: #e9d5ff; }
+            100% { background: #fafafa; }
         }
     </style>
 </head>
@@ -289,7 +270,6 @@
                 </div>
             `).join('');
             
-            // Add event listeners to all remove buttons
             document.querySelectorAll('.remove-word').forEach(button => {
                 button.addEventListener('click', function() {
                     const wordToRemove = this.getAttribute('data-word');
@@ -310,16 +290,14 @@
                 wordList.push(word);
                 updateAddedWordsDisplay();
                 wordInput.value = '';
-                wordInput.focus(); // Keep focus on input for quick adding
+                wordInput.focus();
             } else if (word.length > size) {
                 alert(`Word "${word}" is too long for a ${size}x${size} grid.`);
             }
         }
 
-        // Add word when button is clicked
         addButton.addEventListener('click', addWord);
 
-        // Add word when Enter key is pressed in the input field
         wordInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 addWord();
@@ -333,11 +311,7 @@
                 controls.style.display = 'none';
                 instruction.style.display = 'block';
                 puzzleSection.style.display = 'flex';
-                
-                // Scroll to the puzzle section on mobile
-                if (window.innerWidth < 768) {
-                    puzzleSection.scrollIntoView({ behavior: 'smooth' });
-                }
+                puzzleSection.scrollIntoView({ behavior: 'smooth' });
             } else {
                 alert('Please add at least one word!');
             }
@@ -354,14 +328,14 @@
                 while (!placed && attempts < maxAttempts) {
                     const direction = Math.floor(Math.random() * 8);
                     const directions = [
-                        { dRow: 0, dCol: 1 },  // right
-                        { dRow: 0, dCol: -1 }, // left
-                        { dRow: 1, dCol: 0 },  // down
-                        { dRow: -1, dCol: 0 }, // up
-                        { dRow: 1, dCol: 1 },  // down-right
-                        { dRow: 1, dCol: -1 }, // down-left
-                        { dRow: -1, dCol: 1 }, // up-right
-                        { dRow: -1, dCol: -1 } // up-left
+                        { dRow: 0, dCol: 1 },
+                        { dRow: 0, dCol: -1 },
+                        { dRow: 1, dCol: 0 },
+                        { dRow: -1, dCol: 0 },
+                        { dRow: 1, dCol: 1 },
+                        { dRow: 1, dCol: -1 },
+                        { dRow: -1, dCol: 1 },
+                        { dRow: -1, dCol: -1 }
                     ];
                     const { dRow, dCol } = directions[direction];
 
@@ -410,8 +384,24 @@
             gridDiv.innerHTML = '';
             gridDiv.appendChild(table);
 
-            wordListDiv.innerHTML = '<strong>Words to find:</strong><div class="words">' + 
-                wordList.sort().map(word => `<span>${word}</span>`).join('') + '</div>';
+            // Calculate dynamic width based on longest word
+            const maxLength = Math.max(...wordList.map(word => word.length));
+            const charWidth = 14; // Approximate width per character
+            const minWidth = 150;
+            const calculatedWidth = Math.max(minWidth, (maxLength * charWidth) + 40);
+            
+            wordListDiv.innerHTML = `
+                <strong>Words to find:</strong>
+                <div class="words">${wordList.sort().map(word => `<span>${word}</span>`).join('')}</div>
+                <div class="puzzle-buttons">
+                    <button id="copy-button">Copy Puzzle as Image</button>
+                    <button id="download-button">Download Image</button>
+                </div>
+            `;
+            wordListDiv.style.width = `${Math.min(calculatedWidth, 400)}px`;
+
+            document.getElementById('copy-button').addEventListener('click', capturePuzzle);
+            document.getElementById('download-button').addEventListener('click', downloadPuzzle);
         }
 
         function canPlaceWord(grid, word, row, col, dRow, dCol) {
@@ -434,6 +424,56 @@
                 const r = row + i * dRow;
                 const c = col + i * dCol;
                 grid[r][c] = word[i];
+            }
+        }
+
+        async function capturePuzzle() {
+            try {
+                const container = document.querySelector('.container');
+                container.classList.add('capture');
+                const canvas = await html2canvas(container, {
+                    useCORS: true,
+                    scale: 2,
+                    backgroundColor: '#ede9fe',
+                    ignoreElements: (element) => ['copy-button', 'download-button'].includes(element.id)
+                });
+
+                canvas.toBlob(async (blob) => {
+                    const item = new ClipboardItem({ 'image/png': blob });
+                    await navigator.clipboard.write([item]);
+                    alert('Puzzle copied to clipboard!');
+                    container.classList.remove('capture');
+                });
+            } catch (err) {
+                console.error('Error copying:', err);
+                alert('Error copying puzzle. Please try again.');
+                container.classList.remove('capture');
+            }
+        }
+
+        async function downloadPuzzle() {
+            try {
+                const container = document.querySelector('.container');
+                container.classList.add('capture');
+                const canvas = await html2canvas(container, {
+                    useCORS: true,
+                    scale: 2,
+                    backgroundColor: '#ede9fe',
+                    ignoreElements: (element) => ['copy-button', 'download-button'].includes(element.id)
+                });
+
+                const url = canvas.toDataURL('image/png');
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'wordsearch.png';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                container.classList.remove('capture');
+            } catch (err) {
+                console.error('Error downloading:', err);
+                alert('Error downloading puzzle.');
+                container.classList.remove('capture');
             }
         }
     </script>
