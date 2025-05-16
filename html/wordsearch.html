@@ -1,481 +1,461 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word Search Puzzle</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/icon" href="https://www.haha.me/favicon.ico" />
+    <title>Word Search</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
-        body {
-            font-family: 'Montserrat', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background: #ede9fe;
-        }
-        .container {
-            background: #fafafa;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(107, 33, 168, 0.2);
-            width: fit-content;
-            margin: 20px auto;
-            text-align: center;
-        }
-        h1#title {
-            color: #4c1d95;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-        .controls {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-        .input-section {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-        #size-input {
-            width: 40px;
-            height: 30px;
-            padding: 5px;
-            font-size: 14px;
-            border: 1px solid #6b21a8;
-            border-radius: 5px;
-            text-align: center;
-            font-family: 'Montserrat', sans-serif;
-        }
-        #size-input:focus {
-            background: #f3e8ff;
-            outline: none;
-        }
-        #word-input {
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #6b21a8;
-            border-radius: 5px;
-            width: 200px;
-            font-family: 'Montserrat', sans-serif;
-        }
-        #word-input:focus {
-            background: #f3e8ff;
-            outline: none;
-        }
-        #add-button, #generate-button {
-            padding: 10px 20px;
-            font-size: 16px;
-            line-height: 16px;
-            height: 36px;
-            border: none;
-            border-radius: 5px;
-            background: #7c3aed;
-            color: white;
-            cursor: pointer;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        #add-button:hover, #generate-button:hover {
-            background: #6d28d9;
-        }
-        #added-words {
-            margin-bottom: 20px;
-            color: #4c1d95;
-            font-size: 14px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-            max-width: 600px;
-        }
-        .word-item {
-            background: #e9d5ff;
-            padding: 5px 10px;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .remove-word {
-            color: #6b21a8;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 12px;
-            padding: 0 4px;
-            border-radius: 50%;
-        }
-        .remove-word:hover {
-            background: #6b21a8;
-            color: white;
-        }
-        .instruction {
-            color: #4c1d95;
-            font-size: 23px;
-            margin: 20px 0;
-            font-weight: 600;
-            display: none;
-        }
+      body {
+        font-family: "Montserrat", sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        background: #ede9fe;
+      }
+      .container {
+        background: #fafafa;
+        position: relative;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(107, 33, 168, 0.2);
+        width: fit-content;
+        margin: 20px auto;
+        text-align: center;
+      }
+      h1 {
+        color: #4c1d95;
+        margin-bottom: 20px;
+        font-weight: 600;
+      }
+      .controls {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+      }
+      .input-section {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+      #size-input,
+      #word-input {
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #6b21a8;
+        border-radius: 5px;
+        font-family: "Montserrat", sans-serif;
+      }
+      #size-input {
+        width: 40px;
+        text-align: center;
+      }
+      #word-input {
+        width: 200px;
+      }
+      #size-input:focus,
+      #word-input:focus {
+        background: #f3e8ff;
+        outline: none;
+      }
+      #add-button,
+      #generate-button {
+        padding: 10px 20px;
+        background: #7c3aed;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Montserrat", sans-serif;
+        font-weight: 600;
+      }
+      #add-button:hover,
+      #generate-button:hover {
+        background: #6d28d9;
+      }
+      #added-words {
+        margin-bottom: 20px;
+        color: #4c1d95;
+        font-size: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        max-width: 600px;
+      }
+      .word-item {
+        background: #e9d5ff;
+        padding: 5px 10px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .remove-word {
+        color: #6b21a8;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 12px;
+        padding: 0 4px;
+        border-radius: 50%;
+      }
+      .remove-word:hover {
+        background: #6b21a8;
+        color: white;
+      }
+      .instruction {
+        color: #4c1d95;
+        font-size: 23px;
+        font-weight: 600;
+        display: none;
+        position: relative;
+        text-align: left;
+        padding-left: 60px;
+      }
+      .instruction-logo {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 40px;
+      }
+      .puzzle-section {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+        margin-top: 10px;
+      }
+      #grid {
+        background: linear-gradient(135deg, #d8b4fe, #a78bfa);
+        padding: 10px;
+        border-radius: 17px;
+        box-shadow: 0 4px 8px rgba(107, 33, 168, 0.2);
+        border: 2px solid #6b21a8;
+      }
+      #grid table {
+        border-collapse: collapse;
+      }
+      #grid td {
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        font-size: 20px;
+        border: 1px solid #6b21a8;
+        background: #f3e8ff;
+        color: #4c1d95;
+        font-family: "Montserrat", sans-serif;
+      }
+      #grid tr:nth-child(even) td {
+        background: #e2d6f8;
+      }
+      #grid td:hover {
+        background: #ddd6fe;
+      }
+      #word-list {
+        background: linear-gradient(135deg, #d8b4fe, #a78bfa);
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(107, 33, 168, 0.2);
+        border: 2px solid #6b21a8;
+        width: fit-content;
+        min-width: 150px;
+        max-width: 400px;
+        text-align: center;
+      }
+      #word-list strong {
+        display: block;
+        margin-bottom: 15px;
+        font-size: 18px;
+        color: #4c1d95;
+        font-weight: 600;
+      }
+      #word-list .words {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      #word-list .words span {
+        background: #f3e8ff;
+        padding: 5px 10px;
+        border-radius: 5px;
+        color: #4c1d95;
+        font-family: "Montserrat", sans-serif;
+      }
+      .puzzle-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+      }
+      #copy-button,
+      #download-button {
+        padding: 8px 20px;
+        background: #7c3aed;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Montserrat", sans-serif;
+      }
+      #copy-button:hover,
+      #download-button:hover {
+        background: #6d28d9;
+      }
+      .decor {
+        position: absolute;
+        z-index: 1;
+        filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
+        opacity: 0.5;
+        top: 20px;
+        right: 38px;
+        width: 130px;
+        height: 130px;
+        transform: rotate(-20deg);
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpolygon points='100,10 40,198 190,78 10,78 160,198' fill='%23f97316'/%3E%3C/svg%3E");
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
+      @media (min-width: 768px) {
         .puzzle-section {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            gap: 30px;
-            margin-top: 20px;
-        }
-        #grid {
-            background: linear-gradient(135deg, #d8b4fe, #a78bfa);
-            padding: 10px;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(107, 33, 168, 0.2);
-            border: 2px solid #6b21a8;
-        }
-        #grid table {
-            border-collapse: collapse;
-        }
-        #grid td {
-            width: 30px;
-            height: 30px;
-            text-align: center;
-            font-size: 20px;
-            border: 1px solid #6b21a8;
-            background: #f3e8ff;
-            color: #4c1d95;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 400;
-        }
-        #grid tr:nth-child(even) td {
-            background: #e2d6f8;
-        }
-        #grid td:hover {
-            background: #ddd6fe;
+          flex-direction: row;
+          align-items: flex-start;
+          gap: 40px;
         }
         #word-list {
-            background: linear-gradient(135deg, #d8b4fe, #a78bfa);
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(107, 33, 168, 0.2);
-            border: 2px solid #6b21a8;
-            width: fit-content;
-            min-width: 150px;
-            max-width: 400px;
-            text-align: center;
+          align-self: flex-start;
         }
-        #word-list strong {
-            display: block;
-            margin-bottom: 15px;
-            font-size: 18px;
-            color: #4c1d95;
-            font-weight: 600;
-        }
-        #word-list .words {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        #word-list .words span {
-            background: #f3e8ff;
-            padding: 5px 10px;
-            border-radius: 5px;
-            color: #4c1d95;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 400;
-            white-space: nowrap;
-        }
-        .puzzle-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            width: 100%;
-        }
-        #copy-button, #download-button {
-            padding: 8px 20px;
-            background: #7c3aed;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-family: 'Montserrat', sans-serif;
-            transition: background 0.3s;
-        }
-        #copy-button:hover, #download-button:hover {
-            background: #6d28d9;
-        }
-
-        @media (min-width: 768px) {
-            .puzzle-section {
-                flex-direction: row;
-                align-items: flex-start;
-                gap: 40px;
-            }
-            #word-list {
-                align-self: flex-start;
-            }
-        }
-        .container.capture {
-            animation: flash 0.5s;
-        }
-        @keyframes flash {
-            0% { background: #fafafa; }
-            50% { background: #e9d5ff; }
-            100% { background: #fafafa; }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h1 id="title">Word Search Puzzle</h1>
-        <div class="controls">
-            <div class="input-section">
-                <input type="number" id="size-input" value="15" min="5" max="25" placeholder="Size">
-                <input type="text" id="word-input" placeholder="Enter a word">
-                <button id="add-button">+</button>
-            </div>
-            <div id="added-words"></div>
-            <button id="generate-button">Generate Word Search</button>
+      <h1 id="title">Word Search Puzzle</h1>
+      <div class="controls">
+        <div class="input-section">
+          <input type="number" id="size-input" value="15" min="5" max="25" placeholder="Size" />
+          <input type="text" id="word-input" placeholder="Enter a word" />
+          <button id="add-button">+</button>
         </div>
-        <p class="instruction">Match the words to solve the puzzle!</p>
-        <div class="puzzle-section">
-            <div id="grid"></div>
-            <div id="word-list"></div>
-        </div>
+        <div id="added-words"></div>
+        <button id="generate-button">Generate Word Search</button>
+      </div>
+      <p class="instruction"><img src="https://www.haha.me/favicon.ico" class="instruction-logo" />HaHa Word Hunt - Spot the words</p>
+      <div class="puzzle-section">
+        <div id="grid"></div>
+        <div id="word-list"></div>
+        <div class="decor"></div>
+      </div>
     </div>
     <script>
-        const sizeInput = document.getElementById('size-input');
-        const wordInput = document.getElementById('word-input');
-        const addButton = document.getElementById('add-button');
-        const addedWordsDiv = document.getElementById('added-words');
-        const generateButton = document.getElementById('generate-button');
-        const gridDiv = document.getElementById('grid');
-        const wordListDiv = document.getElementById('word-list');
-        const title = document.getElementById('title');
-        const controls = document.querySelector('.controls');
-        const instruction = document.querySelector('.instruction');
-        const puzzleSection = document.querySelector('.puzzle-section');
-        let wordList = [];
+      const sizeInput = document.getElementById("size-input");
+      const wordInput = document.getElementById("word-input");
+      const addButton = document.getElementById("add-button");
+      const addedWordsDiv = document.getElementById("added-words");
+      const generateButton = document.getElementById("generate-button");
+      const gridDiv = document.getElementById("grid");
+      const wordListDiv = document.getElementById("word-list");
+      const title = document.getElementById("title");
+      const controls = document.querySelector(".controls");
+      const instruction = document.querySelector(".instruction");
+      const puzzleSection = document.querySelector(".puzzle-section");
+      let wordList = [];
 
-        function updateAddedWordsDisplay() {
-            addedWordsDiv.innerHTML = wordList.map(word => `
+      function updateAddedWordsDisplay() {
+        addedWordsDiv.innerHTML = wordList
+          .map(
+            (word) => `
                 <div class="word-item">
                     ${word}
                     <span class="remove-word" data-word="${word}">×</span>
                 </div>
-            `).join('');
-            
-            document.querySelectorAll('.remove-word').forEach(button => {
-                button.addEventListener('click', function() {
-                    const wordToRemove = this.getAttribute('data-word');
-                    removeWord(wordToRemove);
-                });
-            });
-        }
+            `
+          )
+          .join("");
 
-        function removeWord(word) {
-            wordList = wordList.filter(w => w !== word);
-            updateAddedWordsDisplay();
-        }
+        document.querySelectorAll(".remove-word").forEach((button) => {
+          button.addEventListener("click", () => removeWord(button.getAttribute("data-word")));
+        });
+      }
 
-        function addWord() {
-            const word = wordInput.value.trim().toUpperCase();
-            const size = parseInt(sizeInput.value) || 15;
-            if (word && !wordList.includes(word) && word.length <= size) {
-                wordList.push(word);
-                updateAddedWordsDisplay();
-                wordInput.value = '';
-                wordInput.focus();
-            } else if (word.length > size) {
-                alert(`Word "${word}" is too long for a ${size}x${size} grid.`);
+      function removeWord(word) {
+        wordList = wordList.filter((w) => w !== word);
+        updateAddedWordsDisplay();
+      }
+
+      function addWord() {
+        const word = wordInput.value.trim().toUpperCase();
+        const size = parseInt(sizeInput.value) || 15;
+        if (!word) return;
+        if (!wordList.includes(word) && word.length <= size) {
+          wordList.push(word);
+          updateAddedWordsDisplay();
+          wordInput.value = "";
+          wordInput.focus();
+        } else if (word.length > size) {
+          alert(`Word "${word}" is too long for a ${size}x${size} grid.`);
+        }
+      }
+
+      addButton.addEventListener("click", addWord);
+      wordInput.addEventListener("keypress", (e) => e.key === "Enter" && addWord());
+
+      generateButton.addEventListener("click", () => {
+        if (wordList.length === 0) return alert("Please add at least one word!");
+        generateWordSearch();
+        title.style.display = controls.style.display = "none";
+        instruction.style.display = "block";
+        puzzleSection.style.display = "flex";
+        puzzleSection.scrollIntoView({ behavior: "smooth" });
+      });
+
+      function generateWordSearch() {
+        const size = Math.min(Math.max(parseInt(sizeInput.value) || 15, 5), 25);
+        let grid = Array(size)
+          .fill()
+          .map(() => Array(size).fill("."));
+
+        const directions = [
+          { dRow: 0, dCol: 1 },
+          { dRow: 0, dCol: -1 },
+          { dRow: 1, dCol: 0 },
+          { dRow: -1, dCol: 0 },
+          { dRow: 1, dCol: 1 },
+          { dRow: 1, dCol: -1 },
+          { dRow: -1, dCol: 1 },
+          { dRow: -1, dCol: -1 },
+        ];
+
+        wordList.forEach((word) => {
+          let placed = false;
+          for (let attempts = 0; attempts < 100 && !placed; attempts++) {
+            const { dRow, dCol } = directions[Math.floor(Math.random() * 8)];
+            const rowStart = dRow > 0 ? 0 : dRow < 0 ? word.length - 1 : 0;
+            const rowEnd = dRow > 0 ? size - word.length : dRow < 0 ? size - 1 : size - 1;
+            const colStart = dCol > 0 ? 0 : dCol < 0 ? word.length - 1 : 0;
+            const colEnd = dCol > 0 ? size - word.length : dCol < 0 ? size - 1 : size - 1;
+
+            if (rowStart > rowEnd || colStart > colEnd) continue;
+
+            const row = rowStart + Math.floor(Math.random() * (rowEnd - rowStart + 1));
+            const col = colStart + Math.floor(Math.random() * (colEnd - colStart + 1));
+
+            if (canPlaceWord(grid, word, row, col, dRow, dCol)) {
+              placeWord(grid, word, row, col, dRow, dCol);
+              placed = true;
             }
-        }
-
-        addButton.addEventListener('click', addWord);
-
-        wordInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                addWord();
-            }
+          }
+          if (!placed) alert(`Could not place word: ${word}. Try fewer or shorter words.`);
         });
 
-        generateButton.addEventListener('click', () => {
-            if (wordList.length > 0) {
-                generateWordSearch();
-                title.style.display = 'none';
-                controls.style.display = 'none';
-                instruction.style.display = 'block';
-                puzzleSection.style.display = 'flex';
-                puzzleSection.scrollIntoView({ behavior: 'smooth' });
-            } else {
-                alert('Please add at least one word!');
+        for (let i = 0; i < size; i++) {
+          for (let j = 0; j < size; j++) {
+            if (grid[i][j] === ".") {
+              grid[i][j] = String.fromCharCode(65 + Math.floor(Math.random() * 26));
             }
+          }
+        }
+
+        let table = document.createElement("table");
+        grid.forEach((row) => {
+          let tr = document.createElement("tr");
+          row.forEach((cell) => {
+            let td = document.createElement("td");
+            td.textContent = cell;
+            tr.appendChild(td);
+          });
+          table.appendChild(tr);
         });
+        gridDiv.innerHTML = "";
+        gridDiv.appendChild(table);
 
-        function generateWordSearch() {
-            const size = Math.min(Math.max(parseInt(sizeInput.value) || 15, 5), 25);
-            let grid = Array(size).fill().map(() => Array(size).fill('.'));
-
-            wordList.forEach(word => {
-                let placed = false;
-                let attempts = 0;
-                const maxAttempts = 100;
-                while (!placed && attempts < maxAttempts) {
-                    const direction = Math.floor(Math.random() * 8);
-                    const directions = [
-                        { dRow: 0, dCol: 1 },
-                        { dRow: 0, dCol: -1 },
-                        { dRow: 1, dCol: 0 },
-                        { dRow: -1, dCol: 0 },
-                        { dRow: 1, dCol: 1 },
-                        { dRow: 1, dCol: -1 },
-                        { dRow: -1, dCol: 1 },
-                        { dRow: -1, dCol: -1 }
-                    ];
-                    const { dRow, dCol } = directions[direction];
-
-                    const rowStart = dRow > 0 ? 0 : (dRow < 0 ? word.length - 1 : 0);
-                    const rowEnd = dRow > 0 ? size - word.length : (dRow < 0 ? size - 1 : size - 1);
-                    const colStart = dCol > 0 ? 0 : (dRow < 0 ? word.length - 1 : 0);
-                    const colEnd = dCol > 0 ? size - word.length : (dCol < 0 ? size - 1 : size - 1);
-
-                    if (rowStart > rowEnd || colStart > colEnd) {
-                        attempts++;
-                        continue;
-                    }
-
-                    const row = rowStart + Math.floor(Math.random() * (rowEnd - rowStart + 1));
-                    const col = colStart + Math.floor(Math.random() * (colEnd - colStart + 1));
-
-                    if (canPlaceWord(grid, word, row, col, dRow, dCol)) {
-                        placeWord(grid, word, row, col, dRow, dCol);
-                        placed = true;
-                    }
-                    attempts++;
-                }
-                if (!placed) {
-                    alert(`Could not place word: ${word}. Try fewer or shorter words.`);
-                }
-            });
-
-            for (let i = 0; i < size; i++) {
-                for (let j = 0; j < size; j++) {
-                    if (grid[i][j] === '.') {
-                        grid[i][j] = String.fromCharCode(65 + Math.floor(Math.random() * 26));
-                    }
-                }
-            }
-
-            let table = document.createElement('table');
-            for (let i = 0; i < size; i++) {
-                let tr = document.createElement('tr');
-                for (let j = 0; j < size; j++) {
-                    let td = document.createElement('td');
-                    td.textContent = grid[i][j];
-                    tr.appendChild(td);
-                }
-                table.appendChild(tr);
-            }
-            gridDiv.innerHTML = '';
-            gridDiv.appendChild(table);
-
-            // Calculate dynamic width based on longest word
-            const maxLength = Math.max(...wordList.map(word => word.length));
-            const charWidth = 14; // Approximate width per character
-            const minWidth = 150;
-            const calculatedWidth = Math.max(minWidth, (maxLength * charWidth) + 40);
-            
-            wordListDiv.innerHTML = `
-                <strong>Words to find:</strong>
-                <div class="words">${wordList.sort().map(word => `<span>${word}</span>`).join('')}</div>
+        const maxLength = Math.max(...wordList.map((word) => word.length));
+        const calculatedWidth = Math.max(150, maxLength * 14 + 40);
+        wordListDiv.innerHTML = `
+                <strong>Words to find</strong>
+                <div class="words">${wordList
+                  .sort()
+                  .map((word) => `<span>${word}</span>`)
+                  .join("")}</div>
                 <div class="puzzle-buttons">
-                    <button id="copy-button">Copy Puzzle as Image</button>
+                    <button id="copy-button">Copy as Image</button>
                     <button id="download-button">Download Image</button>
                 </div>
             `;
-            wordListDiv.style.width = `${Math.min(calculatedWidth, 400)}px`;
+        wordListDiv.style.width = `${Math.min(calculatedWidth, 400)}px`;
 
-            document.getElementById('copy-button').addEventListener('click', capturePuzzle);
-            document.getElementById('download-button').addEventListener('click', downloadPuzzle);
+        document.getElementById("copy-button").addEventListener("click", capturePuzzle);
+        document.getElementById("download-button").addEventListener("click", downloadPuzzle);
+      }
+
+      function canPlaceWord(grid, word, row, col, dRow, dCol) {
+        const size = grid.length;
+        for (let i = 0; i < word.length; i++) {
+          const r = row + i * dRow;
+          const c = col + i * dCol;
+          if (r < 0 || r >= size || c < 0 || c >= size || (grid[r][c] !== "." && grid[r][c] !== word[i])) {
+            return false;
+          }
         }
+        return true;
+      }
 
-        function canPlaceWord(grid, word, row, col, dRow, dCol) {
-            const size = grid.length;
-            for (let i = 0; i < word.length; i++) {
-                const r = row + i * dRow;
-                const c = col + i * dCol;
-                if (r < 0 || r >= size || c < 0 || c >= size) {
-                    return false;
-                }
-                if (grid[r][c] !== '.' && grid[r][c] !== word[i]) {
-                    return false;
-                }
-            }
-            return true;
+      function placeWord(grid, word, row, col, dRow, dCol) {
+        for (let i = 0; i < word.length; i++) {
+          grid[row + i * dRow][col + i * dCol] = word[i];
         }
+      }
 
-        function placeWord(grid, word, row, col, dRow, dCol) {
-            for (let i = 0; i < word.length; i++) {
-                const r = row + i * dRow;
-                const c = col + i * dCol;
-                grid[r][c] = word[i];
-            }
+      async function capturePuzzle() {
+        try {
+          const container = document.querySelector(".container");
+          container.classList.add("capture");
+          const canvas = await html2canvas(container, {
+            useCORS: true,
+            scale: 2,
+            backgroundColor: "#ede9fe",
+            ignoreElements: (element) => ["copy-button", "download-button"].includes(element.id),
+          });
+          canvas.toBlob(async (blob) => {
+            await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+            alert("Puzzle copied to clipboard!");
+            container.classList.remove("capture");
+          });
+        } catch (err) {
+          console.error("Error copying:", err);
+          alert("Error copying puzzle. Please try again.");
+          container.classList.remove("capture");
         }
+      }
 
-        async function capturePuzzle() {
-            try {
-                const container = document.querySelector('.container');
-                container.classList.add('capture');
-                const canvas = await html2canvas(container, {
-                    useCORS: true,
-                    scale: 2,
-                    backgroundColor: '#ede9fe',
-                    ignoreElements: (element) => ['copy-button', 'download-button'].includes(element.id)
-                });
-
-                canvas.toBlob(async (blob) => {
-                    const item = new ClipboardItem({ 'image/png': blob });
-                    await navigator.clipboard.write([item]);
-                    alert('Puzzle copied to clipboard!');
-                    container.classList.remove('capture');
-                });
-            } catch (err) {
-                console.error('Error copying:', err);
-                alert('Error copying puzzle. Please try again.');
-                container.classList.remove('capture');
-            }
+      async function downloadPuzzle() {
+        try {
+          const container = document.querySelector(".container");
+          container.classList.add("capture");
+          const canvas = await html2canvas(container, {
+            useCORS: true,
+            scale: 2,
+            backgroundColor: "#ede9fe",
+            ignoreElements: (element) => ["copy-button", "download-button"].includes(element.id),
+          });
+          const a = document.createElement("a");
+          a.href = canvas.toDataURL("image/png");
+          a.download = "wordsearch.png";
+          a.click();
+          container.classList.remove("capture");
+        } catch (err) {
+          console.error("Error downloading:", err);
+          alert("Error downloading puzzle.");
+          container.classList.remove("capture");
         }
-
-        async function downloadPuzzle() {
-            try {
-                const container = document.querySelector('.container');
-                container.classList.add('capture');
-                const canvas = await html2canvas(container, {
-                    useCORS: true,
-                    scale: 2,
-                    backgroundColor: '#ede9fe',
-                    ignoreElements: (element) => ['copy-button', 'download-button'].includes(element.id)
-                });
-
-                const url = canvas.toDataURL('image/png');
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'wordsearch.png';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                container.classList.remove('capture');
-            } catch (err) {
-                console.error('Error downloading:', err);
-                alert('Error downloading puzzle.');
-                container.classList.remove('capture');
-            }
-        }
+      }
     </script>
-</body>
+  </body>
 </html>
