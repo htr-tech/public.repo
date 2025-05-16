@@ -24,7 +24,7 @@
             width: 100%;
             text-align: center;
         }
-        #title {
+        h1#title {
             color: #4c1d95;
             margin-bottom: 20px;
             font-weight: 600;
@@ -35,26 +35,13 @@
             align-items: center;
             gap: 20px;
         }
-        .controls-shrunk {
-            flex-direction: row;
-            gap: 10px;
-            position: sticky;
-            top: 0;
-            background: #fafafa;
-            padding: 10px;
-            z-index: 10;
-            justify-content: center;
-        }
         .input-section {
             display: flex;
             justify-content: center;
             gap: 10px;
         }
-        .controls-shrunk .input-section {
-            gap: 5px;
-        }
         #size-input {
-            width: 45px;
+            width: 40px;
             height: 30px;
             padding: 5px;
             font-size: 14px;
@@ -62,11 +49,6 @@
             border-radius: 5px;
             text-align: center;
             font-family: 'Montserrat', sans-serif;
-        }
-        .controls-shrunk #size-input {
-            width: 25px;
-            height: 25px;
-            font-size: 12px;
         }
         #size-input:focus {
             background: #f3e8ff;
@@ -80,11 +62,6 @@
             width: 200px;
             font-family: 'Montserrat', sans-serif;
         }
-        .controls-shrunk #word-input {
-            width: 150px;
-            font-size: 14px;
-            padding: 5px;
-        }
         #word-input:focus {
             background: #f3e8ff;
             outline: none;
@@ -92,6 +69,8 @@
         #add-button, #generate-button {
             padding: 10px 20px;
             font-size: 16px;
+            line-height: 16px;
+            height: 36px;
             border: none;
             border-radius: 5px;
             background: #7c3aed;
@@ -99,10 +78,9 @@
             cursor: pointer;
             font-family: 'Montserrat', sans-serif;
             font-weight: 600;
-        }
-        .controls-shrunk #add-button, .controls-shrunk #generate-button {
-            padding: 5px 10px;
-            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         #add-button:hover, #generate-button:hover {
             background: #6d28d9;
@@ -111,18 +89,44 @@
             margin-bottom: 20px;
             color: #4c1d95;
             font-size: 14px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            max-width: 600px;
+        }
+        .word-item {
+            background: #e9d5ff;
+            padding: 5px 10px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .remove-word {
+            color: #6b21a8;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 12px;
+            padding: 0 4px;
+            border-radius: 50%;
+        }
+        .remove-word:hover {
+            background: #6b21a8;
+            color: white;
         }
         .instruction {
             color: #4c1d95;
-            font-size: 16px;
+            font-size: 23px;
             margin: 20px 0;
             font-weight: 600;
             display: none;
         }
         .puzzle-section {
             display: none;
-            flex-direction: row;
+            flex-direction: column;
             justify-content: center;
+            align-items: center;
             gap: 30px;
             margin-top: 20px;
         }
@@ -133,6 +137,7 @@
             box-shadow: 0 4px 8px rgba(107, 33, 168, 0.2);
             border: 2px solid #6b21a8;
             position: relative;
+            order: 1;
         }
         #grid::before, #grid::after {
             content: '';
@@ -176,13 +181,15 @@
             padding: 20px;
             border-radius: 15px;
             box-shadow: 0 4px 8px rgba(107, 33, 168, 0.2);
-            width: 200px;
+            width: 100%;
+            max-width: 400px;
             text-align: left;
             color: #4c1d95;
             font-size: 16px;
             line-height: 1.6;
             border: 2px solid #6b21a8;
             position: relative;
+            order: 2;
         }
         #word-list::before, #word-list::after {
             content: '';
@@ -207,6 +214,7 @@
             font-size: 18px;
             color: #4c1d95;
             font-weight: 600;
+            text-align: center;
         }
         #word-list .words {
             display: flex;
@@ -223,6 +231,21 @@
         }
         #word-list .words span:hover {
             background: #ddd6fe;
+        }
+
+        /* Desktop layout */
+        @media (min-width: 768px) {
+            .puzzle-section {
+                flex-direction: row;
+                align-items: flex-start;
+            }
+            #grid {
+                order: 1;
+            }
+            #word-list {
+                width: 200px;
+                order: 2;
+            }
         }
     </style>
 </head>
@@ -258,15 +281,48 @@
         const puzzleSection = document.querySelector('.puzzle-section');
         let wordList = [];
 
-        addButton.addEventListener('click', () => {
+        function updateAddedWordsDisplay() {
+            addedWordsDiv.innerHTML = wordList.map(word => `
+                <div class="word-item">
+                    ${word}
+                    <span class="remove-word" data-word="${word}">×</span>
+                </div>
+            `).join('');
+            
+            // Add event listeners to all remove buttons
+            document.querySelectorAll('.remove-word').forEach(button => {
+                button.addEventListener('click', function() {
+                    const wordToRemove = this.getAttribute('data-word');
+                    removeWord(wordToRemove);
+                });
+            });
+        }
+
+        function removeWord(word) {
+            wordList = wordList.filter(w => w !== word);
+            updateAddedWordsDisplay();
+        }
+
+        function addWord() {
             const word = wordInput.value.trim().toUpperCase();
             const size = parseInt(sizeInput.value) || 15;
             if (word && !wordList.includes(word) && word.length <= size) {
                 wordList.push(word);
-                addedWordsDiv.innerHTML = 'Added words: ' + wordList.join(', ');
+                updateAddedWordsDisplay();
                 wordInput.value = '';
+                wordInput.focus(); // Keep focus on input for quick adding
             } else if (word.length > size) {
                 alert(`Word "${word}" is too long for a ${size}x${size} grid.`);
+            }
+        }
+
+        // Add word when button is clicked
+        addButton.addEventListener('click', addWord);
+
+        // Add word when Enter key is pressed in the input field
+        wordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addWord();
             }
         });
 
@@ -274,10 +330,14 @@
             if (wordList.length > 0) {
                 generateWordSearch();
                 title.style.display = 'none';
-                controls.classList.add('controls-shrunk');
-                addedWordsDiv.style.display = 'none';
+                controls.style.display = 'none';
                 instruction.style.display = 'block';
                 puzzleSection.style.display = 'flex';
+                
+                // Scroll to the puzzle section on mobile
+                if (window.innerWidth < 768) {
+                    puzzleSection.scrollIntoView({ behavior: 'smooth' });
+                }
             } else {
                 alert('Please add at least one word!');
             }
@@ -307,7 +367,7 @@
 
                     const rowStart = dRow > 0 ? 0 : (dRow < 0 ? word.length - 1 : 0);
                     const rowEnd = dRow > 0 ? size - word.length : (dRow < 0 ? size - 1 : size - 1);
-                    const colStart = dCol > 0 ? 0 : (dCol < 0 ? word.length - 1 : 0);
+                    const colStart = dCol > 0 ? 0 : (dRow < 0 ? word.length - 1 : 0);
                     const colEnd = dCol > 0 ? size - word.length : (dCol < 0 ? size - 1 : size - 1);
 
                     if (rowStart > rowEnd || colStart > colEnd) {
