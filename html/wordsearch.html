@@ -196,7 +196,8 @@
         width: 100%;
       }
       #copy-button,
-      #download-button {
+      #download-button,
+      #solve-button {
         padding: 8px 20px;
         background: #7c3aed;
         color: white;
@@ -233,25 +234,165 @@
           align-self: flex-start;
         }
       }
+
+      .container2 {
+        background: #fafafa;
+        position: relative;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(107, 33, 168, 0.2);
+        width: fit-content;
+        margin: 20px auto;
+        text-align: center;
+      }
+      .results {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .top-section {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .results-column {
+        flex: 1;
+        min-width: 300px;
+      }
+
+      .word-list-column {
+        flex: 1;
+      }
+
+      .grid-column {
+        flex: 2;
+      }
+
+      .word-list {
+        background: white;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        border: 1px solid #ddd;
+        max-width: 800px;
+        box-sizing: border-box;
+      }
+
+      .word-list strong {
+        display: block;
+        margin-bottom: 15px;
+        font-size: 18px;
+        color: #4c1d95;
+        font-weight: 600;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      .word-list .words {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .word-list .words span {
+        background: #f3e8ff;
+        padding: 5px 10px;
+        border-radius: 5px;
+        color: #4c1d95;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      #solution-grid,
+      #grid {
+        background: linear-gradient(135deg, #d8b4fe, #a78bfa);
+        padding: 10px;
+        border-radius: 17px;
+        box-shadow: 0 4px 8px rgba(107, 33, 168, 0.2);
+        border: 2px solid #6b21a8;
+        display: inline-block;
+        max-width: 100%;
+        overflow-x: auto;
+      }
+
+      #solution-grid table,
+      #grid table {
+        border-collapse: collapse;
+      }
+
+      #solution-grid td,
+      #grid td {
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        font-size: 20px;
+        border: 1px solid #6b21a8;
+        background: #f3e8ff;
+        color: #4c1d95;
+        font-family: "Montserrat", sans-serif;
+        font-weight: bold;
+      }
+
+      #solution-grid tr:nth-child(even) td,
+      #grid tr:nth-child(even) td {
+        background: #e2d6f8;
+      }
+
+      .highlight {
+        background-color: #f97316 !important;
+        color: white !important;
+      }
+
+      @media (max-width: 768px) {
+        .results-column {
+          flex: 1 1 100%;
+        }
+        .top-section {
+          flex-direction: column;
+        }
+        .grid-column,
+        .word-list-column {
+          order: initial;
+          width: 100%;
+        }
+      }
     </style>
   </head>
   <body>
-    <div class="container">
-      <h1 id="title">Word Search Puzzle</h1>
-      <div class="controls">
-        <div class="input-section">
-          <input type="number" id="size-input" value="15" min="5" max="25" placeholder="Size" />
-          <input type="text" id="word-input" placeholder="Enter a word" />
-          <button id="add-button">+</button>
+    <div class="parent">
+      <div class="container">
+        <h1 id="title">Word Search Puzzle</h1>
+        <div class="controls">
+          <div class="input-section">
+            <input type="number" id="size-input" value="15" min="5" max="25" placeholder="Size" />
+            <input type="text" id="word-input" placeholder="Enter a word" />
+            <button id="add-button">+</button>
+          </div>
+          <div id="added-words"></div>
+          <button id="generate-button">Generate Word Search</button>
         </div>
-        <div id="added-words"></div>
-        <button id="generate-button">Generate Word Search</button>
+        <p class="instruction"><img src="https://www.haha.me/favicon.ico" class="instruction-logo" />HaHa Word Hunt - Spot the words</p>
+        <div class="puzzle-section">
+          <div id="grid"></div>
+          <div id="word-list"></div>
+          <div class="decor"></div>
+        </div>
       </div>
-      <p class="instruction"><img src="https://www.haha.me/favicon.ico" class="instruction-logo" />HaHa Word Hunt - Spot the words</p>
-      <div class="puzzle-section">
-        <div id="grid"></div>
-        <div id="word-list"></div>
-        <div class="decor"></div>
+
+      <div class="container2" style="display: none;">
+        <div class="results">
+          <div class="results-column word-list-column">
+            <div class="word-list">
+              <strong>Found Words</strong>
+              <div class="words" id="found-words"></div>
+              <strong style="margin-top: 15px; display: none;" id="not-found-title">Not Found</strong>
+              <div class="words" id="not-found-words" style="display: none;"></div>
+            </div>
+          </div>
+          <div class="results-column grid-column">
+            <div id="solution-grid"></div>
+          </div>
+        </div>
       </div>
     </div>
     <script>
@@ -310,7 +451,6 @@
       generateButton.addEventListener("click", () => {
         if (wordList.length === 0) return alert("Please add at least one word!");
         generateWordSearch();
-        // title.style.display = controls.style.display = "none";
         instruction.style.display = "block";
         puzzleSection.style.display = "flex";
         puzzleSection.scrollIntoView({ behavior: "smooth" });
@@ -387,12 +527,14 @@
                 <div class="puzzle-buttons">
                     <button id="copy-button">Copy as Image</button>
                     <button id="download-button">Download Image</button>
+                    <button id="solve-button">Provide Solve</button>
                 </div>
             `;
         wordListDiv.style.width = `${Math.min(calculatedWidth, 400)}px`;
 
         document.getElementById("copy-button").addEventListener("click", capturePuzzle);
         document.getElementById("download-button").addEventListener("click", downloadPuzzle);
+        document.getElementById("solve-button").addEventListener("click", showSolution);
       }
 
       function canPlaceWord(grid, word, row, col, dRow, dCol) {
@@ -443,7 +585,7 @@
             useCORS: true,
             scale: 2,
             backgroundColor: "#ede9fe",
-			ignoreElements: (element) => ["copy-button", "download-button", "size-input", "word-input", "add-button", "generate-button", "added-words", "title"].includes(element.id),
+            ignoreElements: (element) => ["copy-button", "download-button", "size-input", "word-input", "add-button", "generate-button", "added-words", "title"].includes(element.id),
           });
           const a = document.createElement("a");
           a.href = canvas.toDataURL("image/png");
@@ -456,6 +598,176 @@
           container.classList.remove("capture");
         }
       }
+
+      function showSolution() {
+        const container2 = document.querySelector(".container2");
+        container2.style.display = "block";
+        container2.scrollIntoView({ behavior: "smooth" });
+
+        // Get the current grid and words
+        const grid = [];
+        const table = document.querySelector("#grid table");
+        const rows = table.querySelectorAll("tr");
+
+        rows.forEach((row) => {
+          const rowData = [];
+          row.querySelectorAll("td").forEach((cell) => {
+            rowData.push(cell.textContent);
+          });
+          grid.push(rowData);
+        });
+
+        const words = [...wordList];
+
+        // Find words in grid
+        const results = findWords(grid, words);
+
+        // Display results
+        displaySolution(grid, results.foundWords, results.notFoundWords);
+      }
+
+      function findWords(grid, words) {
+        const directions = [
+          { dr: 0, dc: 1 }, // Right
+          { dr: 0, dc: -1 }, // Left
+          { dr: 1, dc: 0 }, // Down
+          { dr: -1, dc: 0 }, // Up
+          { dr: 1, dc: 1 }, // Down-Right
+          { dr: 1, dc: -1 }, // Down-Left
+          { dr: -1, dc: 1 }, // Up-Right
+          { dr: -1, dc: -1 }, // Up-Left
+        ];
+
+        const foundWords = {};
+        const notFoundWords = [];
+        const rows = grid.length;
+        const cols = grid[0] ? grid[0].length : 0;
+
+        words.forEach((word) => {
+          let found = false;
+
+          for (let r = 0; r < rows && !found; r++) {
+            for (let c = 0; c < cols && !found; c++) {
+              if (grid[r][c].toUpperCase() === word[0].toUpperCase()) {
+                for (const dir of directions) {
+                  let match = true;
+                  const positions = [];
+
+                  for (let i = 0; i < word.length; i++) {
+                    const nr = r + i * dir.dr;
+                    const nc = c + i * dir.dc;
+
+                    if (nr < 0 || nr >= rows || nc < 0 || nc >= cols || grid[nr][nc].toUpperCase() !== word[i].toUpperCase()) {
+                      match = false;
+                      break;
+                    }
+                    positions.push({ r: nr, c: nc });
+                  }
+
+                  if (match) {
+                    found = true;
+                    foundWords[word] = positions;
+                    break;
+                  }
+                }
+              }
+            }
+          }
+
+          if (!found) {
+            notFoundWords.push(word);
+          }
+        });
+
+        return { foundWords, notFoundWords };
+      }
+
+      function displaySolution(grid, foundWords, notFoundWords) {
+        const colors = ["#f97316", "#10b981", "#3b82f6", "#ef4444", "#8b5cf6"];
+
+        // Display found words
+        const foundWordsDiv = document.getElementById("found-words");
+        foundWordsDiv.innerHTML = "";
+
+        // Create solution grid first
+        const solutionGrid = document.getElementById("solution-grid");
+        solutionGrid.innerHTML = "";
+        const table = document.createElement("table");
+        solutionGrid.appendChild(table);
+
+        // Create cells and store references
+        const cells = [];
+        for (let r = 0; r < grid.length; r++) {
+          const tr = document.createElement("tr");
+          cells[r] = [];
+
+          for (let c = 0; c < grid[r].length; c++) {
+            const td = document.createElement("td");
+            td.textContent = grid[r][c];
+            cells[r][c] = td;
+            tr.appendChild(td);
+          }
+
+          table.appendChild(tr);
+        }
+
+        // Process found words and highlight them
+        let colorIndex = 0;
+        for (const [word, positions] of Object.entries(foundWords)) {
+          const color = colors[colorIndex % colors.length];
+
+          // Create word span with the color
+          const span = document.createElement("span");
+          span.textContent = word;
+          span.style.backgroundColor = color;
+          span.style.color = "white";
+          span.style.padding = "5px 10px";
+          span.style.borderRadius = "5px";
+          span.style.margin = "2px";
+          span.style.display = "inline-block";
+          foundWordsDiv.appendChild(span);
+
+          // Highlight cells in grid with the same color
+          positions.forEach((pos) => {
+            if (cells[pos.r] && cells[pos.r][pos.c]) {
+              const cell = cells[pos.r][pos.c];
+              cell.style.backgroundColor = color;
+              cell.style.color = "white";
+              // Add the word as a title attribute to show which word it belongs to
+              cell.title = word;
+            }
+          });
+
+          colorIndex++;
+        }
+
+        // Display not found words if any
+        const notFoundTitle = document.getElementById("not-found-title");
+        const notFoundWordsDiv = document.getElementById("not-found-words");
+
+        if (notFoundWords.length > 0) {
+          notFoundTitle.style.display = "block";
+          notFoundWordsDiv.style.display = "flex";
+          notFoundWordsDiv.innerHTML = "";
+
+          notFoundWords.forEach((word) => {
+            const span = document.createElement("span");
+            span.textContent = word;
+            span.style.textDecoration = "line-through";
+            span.style.color = "#999";
+            span.style.padding = "5px 10px";
+            span.style.margin = "2px";
+            notFoundWordsDiv.appendChild(span);
+          });
+        } else {
+          notFoundTitle.style.display = "none";
+          notFoundWordsDiv.style.display = "none";
+        }
+      }
+      // Hide solution container when generating new puzzle
+      generateButton.addEventListener("click", () => {
+        document.querySelector(".container2").style.display = "none";
+      });
     </script>
   </body>
 </html>
