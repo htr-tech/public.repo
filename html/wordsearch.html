@@ -310,7 +310,7 @@
       generateButton.addEventListener("click", () => {
         if (wordList.length === 0) return alert("Please add at least one word!");
         generateWordSearch();
-        title.style.display = controls.style.display = "none";
+        // title.style.display = controls.style.display = "none";
         instruction.style.display = "block";
         puzzleSection.style.display = "flex";
         puzzleSection.scrollIntoView({ behavior: "smooth" });
@@ -421,7 +421,7 @@
             useCORS: true,
             scale: 2,
             backgroundColor: "#ede9fe",
-            ignoreElements: (element) => ["copy-button", "download-button"].includes(element.id),
+            ignoreElements: (element) => ["copy-button", "download-button", "size-input", "word-input", "add-button", "generate-button", "added-words", "title"].includes(element.id),
           });
           canvas.toBlob(async (blob) => {
             await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
@@ -443,7 +443,7 @@
             useCORS: true,
             scale: 2,
             backgroundColor: "#ede9fe",
-            ignoreElements: (element) => ["copy-button", "download-button"].includes(element.id),
+			ignoreElements: (element) => ["copy-button", "download-button", "size-input", "word-input", "add-button", "generate-button", "added-words", "title"].includes(element.id),
           });
           const a = document.createElement("a");
           a.href = canvas.toDataURL("image/png");
