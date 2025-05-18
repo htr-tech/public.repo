@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<!-- 
+Catz / @htr-tech
+05-18-2025 
+-->
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -8,6 +12,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
+      :root {
+        --primary-color: #4c1d95;
+        --secondary-color: #6b21a8;
+        --accent-color: #7c3aed;
+        --light-accent: #f3e8ff;
+        --lighter-accent: #e9d5ff;
+        --background: #ede9fe;
+        --highlight-color: #f97316;
+      }
+
       body {
         font-family: "Montserrat", sans-serif;
         display: flex;
@@ -15,9 +29,10 @@
         align-items: center;
         min-height: 100vh;
         margin: 0;
-        background: #ede9fe;
+        background: var(--background);
       }
-      .container {
+
+      .container, .container2 {
         background: #fafafa;
         position: relative;
         padding: 30px;
@@ -27,46 +42,51 @@
         margin: 20px auto;
         text-align: center;
       }
+
       h1 {
-        color: #4c1d95;
+        color: var(--primary-color);
         margin-bottom: 20px;
         font-weight: 600;
       }
+
       .controls {
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 15px;
       }
+
       .input-section {
         display: flex;
         justify-content: center;
         gap: 15px;
       }
-      #size-input,
-      #word-input {
+
+      #size-input, #word-input {
         padding: 10px;
         font-size: 16px;
-        border: 1px solid #6b21a8;
+        border: 1px solid var(--secondary-color);
         border-radius: 5px;
         font-family: "Montserrat", sans-serif;
       }
+
       #size-input {
         width: 40px;
         text-align: center;
       }
+
       #word-input {
         width: 200px;
       }
-      #size-input:focus,
-      #word-input:focus {
-        background: #f3e8ff;
+
+      #size-input:focus, #word-input:focus {
+        background: var(--light-accent);
         outline: none;
       }
-      #add-button,
-      #generate-button {
+
+      #add-button, #generate-button, #copy-button, #download-button, #solve-button, #download-solve {
         padding: 10px 20px;
-        background: #7c3aed;
+        background: var(--accent-color);
         color: white;
         border: none;
         border-radius: 5px;
@@ -74,13 +94,18 @@
         font-family: "Montserrat", sans-serif;
         font-weight: 600;
       }
-      #add-button:hover,
-      #generate-button:hover {
+
+      #download-solve{
+        margin-bottom: 10px;
+      }
+
+      #add-button:hover, #generate-button:hover, #copy-button:hover, #download-button:hover, #download-solve:hover {
         background: #6d28d9;
       }
+
       #added-words {
         margin-bottom: 20px;
-        color: #4c1d95;
+        color: var(--primary-color);
         font-size: 15px;
         display: flex;
         flex-wrap: wrap;
@@ -88,28 +113,32 @@
         justify-content: center;
         max-width: 600px;
       }
+
       .word-item {
-        background: #e9d5ff;
+        background: var(--lighter-accent);
         padding: 5px 10px;
         border-radius: 15px;
         display: flex;
         align-items: center;
         gap: 5px;
       }
+
       .remove-word {
-        color: #6b21a8;
+        color: var(--secondary-color);
         cursor: pointer;
         font-weight: bold;
         font-size: 12px;
         padding: 0 4px;
         border-radius: 50%;
       }
+
       .remove-word:hover {
-        background: #6b21a8;
+        background: var(--secondary-color);
         color: white;
       }
+
       .instruction {
-        color: #4c1d95;
+        color: var(--primary-color);
         font-size: 23px;
         font-weight: 600;
         display: none;
@@ -117,6 +146,7 @@
         text-align: left;
         padding-left: 60px;
       }
+
       .instruction-logo {
         position: absolute;
         left: 0;
@@ -125,6 +155,7 @@
         width: 40px;
         height: 40px;
       }
+
       .puzzle-section {
         display: none;
         flex-direction: column;
@@ -132,84 +163,87 @@
         gap: 30px;
         margin-top: 10px;
       }
-      #grid {
+
+      #grid, #solution-grid {
         background: linear-gradient(135deg, #d8b4fe, #a78bfa);
         padding: 10px;
         border-radius: 17px;
         box-shadow: 0 4px 8px rgba(107, 33, 168, 0.2);
-        border: 2px solid #6b21a8;
+        border: 2px solid var(--secondary-color);
+        /* display: inline-block; */
       }
-      #grid table {
+
+      #grid table, #solution-grid table {
         border-collapse: collapse;
       }
-      #grid td {
+
+      #grid td, #solution-grid td {
         width: 30px;
         height: 30px;
         text-align: center;
         font-size: 20px;
-        border: 1px solid #6b21a8;
-        background: #f3e8ff;
-        color: #4c1d95;
+        border: 1px solid var(--secondary-color);
+        background: var(--light-accent);
+        color: var(--primary-color);
         font-family: "Montserrat", sans-serif;
+        font-weight: bold;
       }
-      #grid tr:nth-child(even) td {
+
+      #grid tr:nth-child(even) td, #solution-grid tr:nth-child(even) td {
         background: #e2d6f8;
       }
+
       #grid td:hover {
         background: #ddd6fe;
       }
-      #word-list {
+
+      .highlight {
+        background-color: var(--highlight-color) !important;
+        color: white !important;
+      }
+
+      .word-list {
         background: linear-gradient(135deg, #d8b4fe, #a78bfa);
         padding: 20px;
         border-radius: 15px;
         box-shadow: 0 4px 8px rgba(107, 33, 168, 0.2);
-        border: 2px solid #6b21a8;
+        border: 2px solid var(--secondary-color);
         width: fit-content;
         min-width: 150px;
         max-width: 400px;
         text-align: center;
       }
-      #word-list strong {
+
+      .word-list strong {
         display: block;
         margin-bottom: 15px;
         font-size: 18px;
-        color: #4c1d95;
+        color: var(--primary-color);
         font-weight: 600;
       }
-      #word-list .words {
+
+      .word-list .words {
         display: flex;
         flex-direction: column;
         gap: 10px;
         margin-bottom: 20px;
       }
-      #word-list .words span {
-        background: #f3e8ff;
+
+      .word-list .words span {
+        background: var(--light-accent);
         padding: 5px 10px;
         border-radius: 5px;
-        color: #4c1d95;
+        color: var(--primary-color);
         font-family: "Montserrat", sans-serif;
       }
+
       .puzzle-buttons {
         display: flex;
         flex-direction: column;
-        gap: 10px;
         width: 100%;
+        gap: 10px;
       }
-      #copy-button,
-      #download-button,
-      #solve-button {
-        padding: 8px 20px;
-        background: #7c3aed;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-family: "Montserrat", sans-serif;
-      }
-      #copy-button:hover,
-      #download-button:hover {
-        background: #6d28d9;
-      }
+
       .decor {
         position: absolute;
         z-index: 1;
@@ -224,42 +258,15 @@
         background-size: contain;
         background-repeat: no-repeat;
       }
-      @media (min-width: 768px) {
-        .puzzle-section {
-          flex-direction: row;
-          align-items: flex-start;
-          gap: 40px;
-        }
-        #word-list {
-          align-self: flex-start;
-        }
-      }
 
-      .container2 {
-        background: #fafafa;
-        position: relative;
-        padding: 30px;
-        border-radius: 15px;
-        box-shadow: 0 4px 8px rgba(107, 33, 168, 0.2);
-        width: fit-content;
-        margin: 20px auto;
-        text-align: center;
-      }
       .results {
         display: flex;
         flex-direction: column;
-        gap: 20px;
-      }
-
-      .top-section {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
+        gap: 10px;
       }
 
       .results-column {
         flex: 1;
-        min-width: 300px;
       }
 
       .word-list-column {
@@ -270,91 +277,27 @@
         flex: 2;
       }
 
-      .word-list {
-        background: white;
-        padding: 20px;
-        border-radius: 15px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        border: 1px solid #ddd;
-        max-width: 800px;
-        box-sizing: border-box;
-      }
-
-      .word-list strong {
-        display: block;
-        margin-bottom: 15px;
-        font-size: 18px;
-        color: #4c1d95;
-        font-weight: 600;
-        font-family: "Montserrat", sans-serif;
-      }
-
-      .word-list .words {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-      }
-
-      .word-list .words span {
-        background: #f3e8ff;
-        padding: 5px 10px;
-        border-radius: 5px;
-        color: #4c1d95;
-        font-family: "Montserrat", sans-serif;
-      }
-
-      #solution-grid,
-      #grid {
-        background: linear-gradient(135deg, #d8b4fe, #a78bfa);
-        padding: 10px;
-        border-radius: 17px;
-        box-shadow: 0 4px 8px rgba(107, 33, 168, 0.2);
-        border: 2px solid #6b21a8;
-        display: inline-block;
-        max-width: 100%;
-        overflow-x: auto;
-      }
-
-      #solution-grid table,
-      #grid table {
-        border-collapse: collapse;
-      }
-
-      #solution-grid td,
-      #grid td {
-        width: 30px;
-        height: 30px;
-        text-align: center;
-        font-size: 20px;
-        border: 1px solid #6b21a8;
-        background: #f3e8ff;
-        color: #4c1d95;
-        font-family: "Montserrat", sans-serif;
-        font-weight: bold;
-      }
-
-      #solution-grid tr:nth-child(even) td,
-      #grid tr:nth-child(even) td {
-        background: #e2d6f8;
-      }
-
-      .highlight {
-        background-color: #f97316 !important;
-        color: white !important;
-      }
-
       @media (max-width: 768px) {
         .results-column {
           flex: 1 1 100%;
         }
-        .top-section {
-          flex-direction: column;
+      }
+
+      @media (min-width: 768px) {
+        .puzzle-section {
+          flex-direction: row;
+          align-items: flex-start;
+          gap: 40px;
         }
-        .grid-column,
-        .word-list-column {
-          order: initial;
-          width: 100%;
+        .word-list {
+          align-self: flex-start;
         }
+        .results {
+          flex-direction: row;
+        }
+      }
+      .container2 {
+        display: none;
       }
     </style>
   </head>
@@ -371,22 +314,23 @@
           <div id="added-words"></div>
           <button id="generate-button">Generate Word Search</button>
         </div>
-        <p class="instruction"><img src="https://www.haha.me/favicon.ico" class="instruction-logo" />HaHa Word Hunt - Spot the words</p>
+        <p class="instruction">
+          <img src="https://www.haha.me/favicon.ico" class="instruction-logo" />HaHa Word Hunt - Spot the words
+        </p>
         <div class="puzzle-section">
           <div id="grid"></div>
-          <div id="word-list"></div>
+          <div class="word-list" id="word-list"></div>
           <div class="decor"></div>
         </div>
       </div>
 
-      <div class="container2" style="display: none;">
+      <div class="container2">
         <div class="results">
           <div class="results-column word-list-column">
             <div class="word-list">
+              <button id="download-solve">Download Solve</button>
               <strong>Found Words</strong>
               <div class="words" id="found-words"></div>
-              <strong style="margin-top: 15px; display: none;" id="not-found-title">Not Found</strong>
-              <div class="words" id="not-found-words" style="display: none;"></div>
             </div>
           </div>
           <div class="results-column grid-column">
@@ -456,6 +400,7 @@
         puzzleSection.scrollIntoView({ behavior: "smooth" });
       });
 
+      // Function to generate the puzzle
       function generateWordSearch() {
         const size = Math.min(Math.max(parseInt(sizeInput.value) || 15, 5), 25);
         let grid = Array(size)
@@ -532,8 +477,8 @@
             `;
         wordListDiv.style.width = `${Math.min(calculatedWidth, 400)}px`;
 
-        document.getElementById("copy-button").addEventListener("click", capturePuzzle);
-        document.getElementById("download-button").addEventListener("click", downloadPuzzle);
+        document.getElementById("copy-button").addEventListener("click", () => capturePuzzle());
+        document.getElementById("download-button").addEventListener("click", () => downloadPuzzle());
         document.getElementById("solve-button").addEventListener("click", showSolution);
       }
 
@@ -555,50 +500,65 @@
         }
       }
 
-      async function capturePuzzle() {
+      const ignoredEIds = [
+        "title",
+        "size-input",
+        "word-input",
+        "added-words",
+        "add-button",
+        "generate-button",
+        "copy-button",
+        "download-button",
+        "solve-button",
+      ];
+
+      async function capturePuzzleImage(container, ignoreIds = ignoredEIds) {
+        container.classList.add("capture");
         try {
-          const container = document.querySelector(".container");
-          container.classList.add("capture");
           const canvas = await html2canvas(container, {
             useCORS: true,
             scale: 2,
             backgroundColor: "#ede9fe",
-            ignoreElements: (element) => ["copy-button", "download-button", "size-input", "word-input", "add-button", "generate-button", "added-words", "title"].includes(element.id),
+            ignoreElements: (element) => ignoreIds.includes(element.id),
           });
-          canvas.toBlob(async (blob) => {
-            await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
-            alert("Puzzle copied to clipboard!");
-            container.classList.remove("capture");
-          });
-        } catch (err) {
-          console.error("Error copying:", err);
-          alert("Error copying puzzle. Please try again.");
+          return canvas;
+        } finally {
           container.classList.remove("capture");
         }
       }
 
-      async function downloadPuzzle() {
+      // Copy Puzzle to Clipboard
+      async function capturePuzzle(containerSelector = ".container", ignoreIds = ignoredEIds) {
+        const container = document.querySelector(containerSelector);
         try {
-          const container = document.querySelector(".container");
-          container.classList.add("capture");
-          const canvas = await html2canvas(container, {
-            useCORS: true,
-            scale: 2,
-            backgroundColor: "#ede9fe",
-            ignoreElements: (element) => ["copy-button", "download-button", "size-input", "word-input", "add-button", "generate-button", "added-words", "title"].includes(element.id),
-          });
+          if (!navigator.clipboard || !window.ClipboardItem) {
+            throw new Error("Clipboard API not supported.");
+          }
+          const canvas = await capturePuzzleImage(container, ignoreIds);
+          const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
+          await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+          alert("Puzzle copied to clipboard!");
+        } catch (err) {
+          console.error("Error copying:", err);
+        }
+      }
+
+      // Download Puzzle
+      async function downloadPuzzle(containerSelector = ".container", ignoreIds = ignoredEIds) {
+        const container = document.querySelector(containerSelector);
+        try {
+          const canvas = await capturePuzzleImage(container, ignoreIds);
           const a = document.createElement("a");
           a.href = canvas.toDataURL("image/png");
           a.download = "wordsearch.png";
           a.click();
-          container.classList.remove("capture");
         } catch (err) {
           console.error("Error downloading:", err);
           alert("Error downloading puzzle.");
-          container.classList.remove("capture");
         }
       }
 
+      // Function to show Solution
       function showSolution() {
         const container2 = document.querySelector(".container2");
         container2.style.display = "block";
@@ -657,7 +617,13 @@
                     const nr = r + i * dir.dr;
                     const nc = c + i * dir.dc;
 
-                    if (nr < 0 || nr >= rows || nc < 0 || nc >= cols || grid[nr][nc].toUpperCase() !== word[i].toUpperCase()) {
+                    if (
+                      nr < 0 ||
+                      nr >= rows ||
+                      nc < 0 ||
+                      nc >= cols ||
+                      grid[nr][nc].toUpperCase() !== word[i].toUpperCase()
+                    ) {
                       match = false;
                       break;
                     }
@@ -676,6 +642,7 @@
 
           if (!found) {
             notFoundWords.push(word);
+            // For Future Implementation
           }
         });
 
@@ -683,7 +650,21 @@
       }
 
       function displaySolution(grid, foundWords, notFoundWords) {
-        const colors = ["#f97316", "#10b981", "#3b82f6", "#ef4444", "#8b5cf6"];
+        const colors = [
+          "#f97316",
+          "#10b981",
+          "#3b82f6",
+          "#ef4444",
+          "#8b5cf6",
+          "#2dc659",
+          "#bc14b7",
+          "#bcbc14",
+          "#f119cd",
+          "#42a9ea",
+          "#3b82f6",
+          "#ef4444",
+          "#8b5cf6",
+        ];
 
         // Display found words
         const foundWordsDiv = document.getElementById("found-words");
@@ -740,30 +721,13 @@
 
           colorIndex++;
         }
-
-        // Display not found words if any
-        const notFoundTitle = document.getElementById("not-found-title");
-        const notFoundWordsDiv = document.getElementById("not-found-words");
-
-        if (notFoundWords.length > 0) {
-          notFoundTitle.style.display = "block";
-          notFoundWordsDiv.style.display = "flex";
-          notFoundWordsDiv.innerHTML = "";
-
-          notFoundWords.forEach((word) => {
-            const span = document.createElement("span");
-            span.textContent = word;
-            span.style.textDecoration = "line-through";
-            span.style.color = "#999";
-            span.style.padding = "5px 10px";
-            span.style.margin = "2px";
-            notFoundWordsDiv.appendChild(span);
-          });
-        } else {
-          notFoundTitle.style.display = "none";
-          notFoundWordsDiv.style.display = "none";
-        }
       }
+
+      // Ability to Download the Solve
+      document
+        .getElementById("download-solve")
+        .addEventListener("click", () => downloadPuzzle(".container2", ["download-solve"]));
+
       // Hide solution container when generating new puzzle
       generateButton.addEventListener("click", () => {
         document.querySelector(".container2").style.display = "none";
