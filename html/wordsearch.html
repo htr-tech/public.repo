@@ -299,6 +299,23 @@ Catz / @htr-tech
       .container2 {
         display: none;
       }
+
+      .editable-word {
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .editable-word[contenteditable="true"] {
+        background: white !important;
+        outline: 2px solid var(--accent-color);
+        padding: 3px 8px;
+        border-radius: 4px;
+        cursor: text;
+      }
+
+      .editable-word:focus {
+        outline: 2px solid var(--accent-color);
+      }
     </style>
   </head>
   <body>
@@ -467,7 +484,9 @@ Catz / @htr-tech
                 <strong>Words to find</strong>
                 <div class="words">${wordList
                   .sort()
-                  .map((word) => `<span>${word}</span>`)
+                  .map(
+                    (word) => `<span class="editable-word" contenteditable="false">${word}</span>`
+                  )
                   .join("")}</div>
                 <div class="puzzle-buttons">
                     <button id="copy-button">Copy as Image</button>
@@ -480,6 +499,29 @@ Catz / @htr-tech
         document.getElementById("copy-button").addEventListener("click", () => capturePuzzle());
         document.getElementById("download-button").addEventListener("click", () => downloadPuzzle());
         document.getElementById("solve-button").addEventListener("click", showSolution);
+
+        document.querySelectorAll(".editable-word").forEach((span) => {
+          span.addEventListener("click", function () {
+            this.setAttribute("contenteditable", "true");
+            this.focus();
+          });
+
+          span.addEventListener("blur", function () {
+            this.setAttribute("contenteditable", "false");
+            const originalWord = this.dataset.original || this.textContent;
+            const newWord = this.textContent.trim().toUpperCase();
+            if (newWord && newWord !== originalWord) {
+              const index = wordList.indexOf(originalWord);
+              if (index !== -1) {
+                wordList[index] = newWord;
+                this.dataset.original = newWord;
+              }
+            }
+          });
+
+          // Store original word for reference
+          span.dataset.original = span.textContent;
+        });
       }
 
       function canPlaceWord(grid, word, row, col, dRow, dCol) {
