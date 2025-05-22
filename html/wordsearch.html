@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- 
 Catz / @htr-tech
-05-18-2025 
+05-22-2025 
 -->
 <html lang="en">
   <head>
@@ -11,6 +11,7 @@ Catz / @htr-tech
     <title>Word Search</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
     <style>
       :root {
         --primary-color: #4c1d95;
@@ -18,8 +19,53 @@ Catz / @htr-tech
         --accent-color: #7c3aed;
         --light-accent: #f3e8ff;
         --lighter-accent: #e9d5ff;
-        --background: #ede9fe;
-        --highlight-color: #f97316;
+        --background: #311854;
+      }
+
+      /* Color Themes */
+      .theme-violet {  /* Done */
+        --primary-color: #4c1d95;
+        --secondary-color: #6b21a8;
+        --accent-color: #7c3aed;
+        --light-accent: #f3e8ff;
+        --lighter-accent: #e9d5ff;
+        --background: #311854;
+      }
+
+      .theme-midnight {  /* Done */
+        --primary-color: #9f1239;
+        --secondary-color: #6b1d4e;
+        --accent-color: #f43f5e;
+        --light-accent: #fce7f3;
+        --lighter-accent: #fecdd3;
+        --background: #1c1124;
+      }
+
+      .theme-desert { /* Done */
+        --primary-color: #3f2a1d;
+        --secondary-color: #854d0e;
+        --accent-color: #d97706;
+        --light-accent: #f5e7db;
+        --lighter-accent: #f0bb8f;
+        --background: #2c1b12;
+      }
+
+      .theme-cosmic { /* Done */
+        --primary-color: #1e1b4b;
+        --secondary-color: #3730a3;
+        --accent-color: #7c3aed;
+        --light-accent: #e0e7ff;
+        --lighter-accent: #c5bdef;
+        --background: #0f172a;
+      }
+
+      .theme-nebula { /* Done */
+        --primary-color: #262480;
+        --secondary-color: #5351A2;
+        --accent-color: #9c3c9b;
+        --light-accent: #e8dce4;
+        --lighter-accent: #ecb6e8;
+        --background: #4b163b;
       }
 
       body {
@@ -30,10 +76,11 @@ Catz / @htr-tech
         min-height: 100vh;
         margin: 0;
         background: var(--background);
+        transition: background 0.3s ease;
       }
 
       .container, .container2 {
-        background: #fafafa;
+        background: var(--light-accent);/* #fafafa; */
         position: relative;
         padding: 30px;
         border-radius: 15px;
@@ -41,12 +88,14 @@ Catz / @htr-tech
         width: fit-content;
         margin: 20px auto;
         text-align: center;
+        transition: box-shadow 0.3s ease;
       }
 
       h1 {
         color: var(--primary-color);
         margin-bottom: 20px;
         font-weight: 600;
+        transition: color 0.3s ease;
       }
 
       .controls {
@@ -59,7 +108,7 @@ Catz / @htr-tech
       .input-section {
         display: flex;
         justify-content: center;
-        gap: 15px;
+        gap: 10px;
       }
 
       #size-input, #word-input {
@@ -68,6 +117,7 @@ Catz / @htr-tech
         border: 1px solid var(--secondary-color);
         border-radius: 5px;
         font-family: "Montserrat", sans-serif;
+        transition: border-color 0.3s ease, background 0.3s ease;
       }
 
       #size-input {
@@ -84,7 +134,7 @@ Catz / @htr-tech
         outline: none;
       }
 
-      #add-button, #generate-button, #copy-button, #download-button, #solve-button, #download-solve {
+      #add-button, #generate-button, #copy-button, #download-button, #solve-button, #download-solve, .theme-btn {
         padding: 10px 20px;
         background: var(--accent-color);
         color: white;
@@ -93,14 +143,63 @@ Catz / @htr-tech
         cursor: pointer;
         font-family: "Montserrat", sans-serif;
         font-weight: 600;
+        transition: background 0.3s ease;
       }
 
       #download-solve{
         margin-bottom: 10px;
       }
 
-      #add-button:hover, #generate-button:hover, #copy-button:hover, #download-button:hover, #download-solve:hover {
-        background: #6d28d9;
+      #add-button:hover, #generate-button:hover, #copy-button:hover, #download-button:hover, #solve-button:hover, #download-solve:hover, .theme-btn:hover {
+        background: var(--secondary-color);
+      }
+
+      /* Theme Picker Styles */
+      .theme-picker {
+        position: relative;
+        display: inline-block;
+      }
+
+      .theme-btn {
+        padding: 15px 15px;
+        display: flex;
+        align-items: center;
+      }
+
+      .theme-btn i {
+        font-size: 14px;
+      }
+
+      .theme-dropdown {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: var(--lighter-accent);
+        min-width: 100px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+        border-radius: 5px;
+        overflow: hidden;
+        margin-top: 5px;
+      }
+
+      .theme-dropdown.show {
+        display: block;
+      }
+
+      .theme-option {
+        color: var(--primary-color);
+        padding: 12px 16px;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .theme-option:hover {
+        background-color: var(--light-accent);
       }
 
       #added-words {
@@ -112,6 +211,7 @@ Catz / @htr-tech
         gap: 8px;
         justify-content: center;
         max-width: 600px;
+        transition: color 0.3s ease;
       }
 
       .word-item {
@@ -121,6 +221,7 @@ Catz / @htr-tech
         display: flex;
         align-items: center;
         gap: 5px;
+        transition: background 0.3s ease;
       }
 
       .remove-word {
@@ -130,6 +231,7 @@ Catz / @htr-tech
         font-size: 12px;
         padding: 0 4px;
         border-radius: 50%;
+        transition: background 0.3s ease, color 0.3s ease;
       }
 
       .remove-word:hover {
@@ -145,6 +247,7 @@ Catz / @htr-tech
         position: relative;
         text-align: left;
         padding-left: 60px;
+        transition: color 0.3s ease;
       }
 
       .instruction-logo {
@@ -165,12 +268,12 @@ Catz / @htr-tech
       }
 
       #grid, #solution-grid {
-        background: linear-gradient(135deg, #d8b4fe, #a78bfa);
+        background: linear-gradient(135deg, var(--lighter-accent), var(--accent-color));
         padding: 10px;
         border-radius: 17px;
         box-shadow: 0 4px 8px rgba(107, 33, 168, 0.2);
         border: 2px solid var(--secondary-color);
-        /* display: inline-block; */
+        transition: background 0.3s ease, border-color 0.3s ease;
       }
 
       #grid table, #solution-grid table {
@@ -187,23 +290,19 @@ Catz / @htr-tech
         color: var(--primary-color);
         font-family: "Montserrat", sans-serif;
         font-weight: bold;
+        transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
       }
 
       #grid tr:nth-child(even) td, #solution-grid tr:nth-child(even) td {
-        background: #e2d6f8;
-      }
-
-      #grid td:hover {
-        background: #ddd6fe;
+        background: var(--lighter-accent);
       }
 
       .highlight {
-        background-color: var(--highlight-color) !important;
         color: white !important;
       }
 
       .word-list {
-        background: linear-gradient(135deg, #d8b4fe, #a78bfa);
+        background: var(--light-accent);
         padding: 20px;
         border-radius: 15px;
         box-shadow: 0 4px 8px rgba(107, 33, 168, 0.2);
@@ -212,6 +311,7 @@ Catz / @htr-tech
         min-width: 150px;
         max-width: 400px;
         text-align: center;
+        transition: background 0.3s ease, border-color 0.3s ease;
       }
 
       .word-list strong {
@@ -220,6 +320,7 @@ Catz / @htr-tech
         font-size: 18px;
         color: var(--primary-color);
         font-weight: 600;
+        transition: color 0.3s ease;
       }
 
       .word-list .words {
@@ -230,11 +331,31 @@ Catz / @htr-tech
       }
 
       .word-list .words span {
-        background: var(--light-accent);
+        background: var(--secondary-color);
+        font-weight: bold;
         padding: 5px 10px;
         border-radius: 5px;
-        color: var(--primary-color);
+        color: white;
         font-family: "Montserrat", sans-serif;
+        transition: background 0.3s ease, color 0.3s ease;
+      }
+
+      .editable-word {
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .editable-word[contenteditable="true"] {
+        background: var(--light-accent) !important;
+        color: var(--primary-color) !important;
+        outline: 2px solid var(--accent-color);
+        padding: 3px 8px;
+        border-radius: 4px;
+        cursor: text;
+      }
+
+      .editable-word:focus {
+        outline: 2px solid var(--accent-color);
       }
 
       .puzzle-buttons {
@@ -242,21 +363,6 @@ Catz / @htr-tech
         flex-direction: column;
         width: 100%;
         gap: 10px;
-      }
-
-      .decor {
-        position: absolute;
-        z-index: 1;
-        filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
-        opacity: 0.5;
-        top: 20px;
-        right: 38px;
-        width: 130px;
-        height: 130px;
-        transform: rotate(-20deg);
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpolygon points='100,10 40,198 190,78 10,78 160,198' fill='%23f97316'/%3E%3C/svg%3E");
-        background-size: contain;
-        background-repeat: no-repeat;
       }
 
       .results {
@@ -299,34 +405,38 @@ Catz / @htr-tech
       .container2 {
         display: none;
       }
-
-      .editable-word {
-        cursor: pointer;
-        transition: all 0.2s;
-      }
-
-      .editable-word[contenteditable="true"] {
-        background: white !important;
-        outline: 2px solid var(--accent-color);
-        padding: 3px 8px;
-        border-radius: 4px;
-        cursor: text;
-      }
-
-      .editable-word:focus {
-        outline: 2px solid var(--accent-color);
-      }
     </style>
   </head>
-  <body>
+  <body class="theme-violet">
     <div class="parent">
       <div class="container">
         <h1 id="title">Word Search Puzzle</h1>
         <div class="controls">
           <div class="input-section">
+            <!-- Theme/Accent Picker  -->
+            <div class="theme-picker">
+              <button class="theme-btn" id="theme-option"><i class="fas fa-palette"></i></button>
+              <div class="theme-dropdown">
+                <div class="theme-option" data-theme="violet">
+                  <span>Violet</span>
+                </div>
+                <div class="theme-option" data-theme="midnight">
+                  <span>Midnight</span>
+                </div>
+                <div class="theme-option" data-theme="desert">
+                  <span>Desert</span>
+                </div>
+                <div class="theme-option" data-theme="cosmic">
+                  <span>Cosmic</span>
+                </div>
+                <div class="theme-option" data-theme="nebula">
+                  <span>Nebula</span>
+                </div>
+              </div>
+            </div>
             <input type="number" id="size-input" value="15" min="5" max="25" placeholder="Size" />
             <input type="text" id="word-input" placeholder="Enter a word" />
-            <button id="add-button">+</button>
+            <button id="add-button"><i class="fas fa-plus"></i></button>
           </div>
           <div id="added-words"></div>
           <button id="generate-button">Generate Word Search</button>
@@ -337,7 +447,6 @@ Catz / @htr-tech
         <div class="puzzle-section">
           <div id="grid"></div>
           <div class="word-list" id="word-list"></div>
-          <div class="decor"></div>
         </div>
       </div>
 
@@ -369,6 +478,30 @@ Catz / @htr-tech
       const instruction = document.querySelector(".instruction");
       const puzzleSection = document.querySelector(".puzzle-section");
       let wordList = [];
+
+      // Theme Picker
+      const themeBtn = document.querySelector(".theme-btn");
+      const themeDropdown = document.querySelector(".theme-dropdown");
+      const themeOptions = document.querySelectorAll(".theme-option");
+      const body = document.body;
+
+      themeBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        themeDropdown.classList.toggle("show");
+      });
+
+      themeOptions.forEach((option) => {
+        option.addEventListener("click", function () {
+          const theme = this.getAttribute("data-theme");
+          body.className = "";
+          body.classList.add(`theme-${theme}`);
+          themeDropdown.classList.remove("show");
+        });
+      });
+
+      document.addEventListener("click", function () {
+        themeDropdown.classList.remove("show");
+      });
 
       function updateAddedWordsDisplay() {
         addedWordsDiv.innerHTML = wordList
@@ -484,9 +617,7 @@ Catz / @htr-tech
                 <strong>Words to find</strong>
                 <div class="words">${wordList
                   .sort()
-                  .map(
-                    (word) => `<span class="editable-word" contenteditable="false">${word}</span>`
-                  )
+                  .map((word) => `<span class="editable-word" contenteditable="false">${word}</span>`)
                   .join("")}</div>
                 <div class="puzzle-buttons">
                     <button id="copy-button">Copy as Image</button>
@@ -544,6 +675,7 @@ Catz / @htr-tech
 
       const ignoredEIds = [
         "title",
+        "theme-option",
         "size-input",
         "word-input",
         "added-words",
