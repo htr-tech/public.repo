@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Base Calc</title>
+  <style>
+    :root {
+      --primary-color: #4299e1;
+      --secondary-color: #63b3ed;
+      --accent-color: #fc8181;
+      --light-color: #1a202c;
+      --dark-color: #f7fafc;
+      --border-radius: 12px;
+      --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      background: linear-gradient(135deg, #2a202c 10%, #2d3788 90%);
+      min-height: 100vh;
+      padding: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 16px;
+      line-height: 1.4;
+      touch-action: manipulation;
+    }
+
+    .main-container {
+      max-width: 100%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .tool-container {
+      background-color: #2d3268;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      width: 100%;
+      padding: 20px;
+    }
+
+    .tool-title {
+      color: var(--primary-color);
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    /* Converter */
+    .converter-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+    }
+
+    label {
+      font-weight: 600;
+      color: var(--dark-color);
+      font-size: 16px;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+
+    select,
+    input {
+      padding: 14px 12px;
+      border: 2px solid #e1e5e9;
+      border-radius: var(--border-radius);
+      font-size: 16px;
+      background: white;
+      min-height: 48px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    select:focus,
+    input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.1);
+    }
+
+    .base-input {
+      max-width: 80px;
+      min-width: 80px;
+    }
+
+    #from-value {
+      flex: 2;
+      min-width: 120px;
+    }
+
+    .convert-btn {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      min-width: 120px;
+      transition: background-color 0.2s;
+    }
+
+    .convert-btn:active {
+      background-color: var(--secondary-color);
+      transform: translateY(1px);
+    }
+
+    .result-container {
+      margin-top: 16px;
+      padding: 16px;
+      background-color: var(--light-color);
+      border-radius: var(--border-radius);
+      border-left: 4px solid var(--primary-color);
+    }
+
+    .result-label {
+      font-weight: 600;
+      color: var(--dark-color);
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    .result-value {
+      font-size: 18px;
+      color: var(--primary-color);
+      font-weight: 600;
+      word-break: break-all;
+      line-height: 1.3;
+    }
+
+    .error {
+      color: var(--accent-color);
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    /* Calculator */
+    .operation-selector {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .operation-btn {
+      padding: 12px 8px;
+      border: 2px solid var(--primary-color);
+      border-radius: var(--border-radius);
+      background: white;
+      color: var(--primary-color);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .operation-btn.active {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .operation-btn:active {
+      transform: scale(0.98);
+    }
+
+    .base-selector {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .base-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .calc-base-selector label {
+      font-weight: 600;
+      color: var(--dark-color);
+      white-space: nowrap;
+      font-size: 14px;
+      min-width: 60px;
+    }
+
+    .calc-base-selector select {
+      padding: 12px;
+      border: 2px solid #e1e5e9;
+      border-radius: var(--border-radius);
+      font-size: 14px;
+      background: white;
+      min-height: 44px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .calc-base-selector input {
+      padding: 12px;
+      border: 2px solid #e1e5e9;
+      border-radius: var(--border-radius);
+      font-size: 16px;
+      background: white;
+      min-height: 44px;
+      width: 100%;
+      max-width: 120px;
+    }
+
+    .input-container {
+      margin-bottom: 10px;
+    }
+
+    .input-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      padding: 8px;
+      background: var(--light-color);
+      border-radius: var(--border-radius);
+    }
+
+    .input-row input {
+      padding: 12px;
+      border: 2px solid #e1e5e9;
+      border-radius: var(--border-radius);
+      font-size: 16px;
+      background: white;
+      min-height: 44px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .input-row input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+    }
+
+    .remove-row {
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      width: 40px;
+      height: 40px;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .remove-row:active {
+      transform: scale(0.95);
+    }
+
+    .operation-sign {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--dark-color);
+      min-width: 24px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .add-row-btn,
+    .calculate-btn {
+      padding: 14px 12px;
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      min-height: 48px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .add-row-btn {
+      background: var(--secondary-color);
+      color: white;
+    }
+
+    .calculate-btn {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .add-row-btn:active,
+    .calculate-btn:active {
+      transform: scale(0.98);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .input-error {
+      border-color: var(--accent-color) !important;
+      background-color: #fff5f5;
+    }
+
+    select {
+      appearance: none;
+      -webkit-appearance: none;
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 16px;
+      padding-right: 40px;
+    }
+
+    @media (min-width: 480px) {
+      .form-group {
+        flex-direction: row;
+        align-items: center;
+      }
+
+      .form-group label {
+        min-width: 60px;
+        margin-bottom: 0;
+      }
+
+      .input-group {
+        flex: 1;
+      }
+
+      .operation-selector {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .base-selector {
+        flex-direction: row;
+        align-items: center;
+      }
+
+      .base-row {
+        flex: 1;
+      }
+
+      .controls {
+        flex-direction: row;
+      }
+
+      .add-row-btn {
+        max-width: 200px;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .main-container {
+        max-width: 600px;
+      }
+    }
+
+    @media (max-height: 500px) and (orientation: landscape) {
+      .tool-container {
+        padding: 15px;
+      }
+
+      .operation-btn,
+      select,
+      input,
+      .add-row-btn,
+      .calculate-btn {
+        min-height: 40px;
+        padding: 10px;
+      }
+    }
+
+    @media screen and (max-width: 768px) {
+
+      select,
+      input {
+        font-size: 16px !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="main-container">
+    <!-- Converter -->
+    <div class="tool-container">
+      <div class="converter-form">
+        <div class="form-group">
+          <div class="input-group">
+            <select id="from-base">
+              <option value="decimal">Decimal</option>
+              <option value="binary">Binary</option>
+              <option value="octal">Octal</option>
+              <option value="hex">Hexadecimal</option>
+              <option value="base-x">Base X</option>
+            </select>
+            <input type="number" id="from-base-value" class="base-input hidden" placeholder="Base" min="2" max="36">
+            <input type="text" id="from-value" placeholder="Enter number" style="flex: 2;">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="input-group">
+            <select id="to-base">
+              <option value="binary">Binary</option>
+              <option value="decimal">Decimal</option>
+              <option value="octal">Octal</option>
+              <option value="hex">Hexadecimal</option>
+              <option value="base-x">Base X</option>
+            </select>
+            <input type="number" id="to-base-value" class="base-input hidden" placeholder="Base" min="2" max="36">
+            <button id="convert-btn" class="convert-btn">Convert</button>
+          </div>
+        </div>
+        <div id="from-error" class="error hidden"></div>
+      </div>
+      <div id="converter-result" class="result-container hidden">
+        <div class="result-label">Result:</div>
+        <div id="converter-result-value" class="result-value"></div>
+      </div>
+    </div>
+
+    <!-- Base calculator -->
+    <div class="tool-container">
+      <div class="operation-selector">
+        <button class="operation-btn active" data-operation="+">(+)</button>
+        <button class="operation-btn" data-operation="-">(-)</button>
+        <button class="operation-btn" data-operation="*">(×)</button>
+        <button class="operation-btn" data-operation="/">(÷)</button>
+      </div>
+      <div class="base-selector calc-base-selector">
+        <div class="base-row">
+          <select id="calc-base">
+            <option value="10">Decimal</option>
+            <option value="2">Binary</option>
+            <option value="8">Octal</option>
+            <option value="16">Hexadecimal</option>
+            <option value="custom">Custom Base</option>
+          </select>
+          <input type="number" id="calc-custom-base" class="hidden" placeholder="Base" min="2" max="36" value="10">
+        </div>
+      </div>
+      <div id="calc-input-container" class="input-container">
+        <!-- rows -->
+      </div>
+      <div class="controls">
+        <button id="add-row-btn" class="add-row-btn">+ Add Row</button>
+        <button id="calculate-btn" class="calculate-btn">Calculate</button>
+      </div>
+      <div id="calc-result-container" class="result-container hidden">
+        <div class="result-label">Result:</div>
+        <div id="calc-result-value" class="result-value"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function isValidBase(base) {
+      return Number.isInteger(base) && base >= 2 && base <= 36;
+    }
+
+    function paseBaseFractions(value, base) {
+      const cleanValue = value.replace(/\s/g, '');
+      const parts = cleanValue.split('.');
+      if (parts.length > 2) throw new Error('Invalid number format');
+
+      // Valid character regex for bases > 10
+      let validChars = base <= 10
+        ? `0-${base - 1}`
+        : `0-9A-${String.fromCharCode(65 + base - 11)}`;
+      const regex = new RegExp(`^-?[${validChars}]+(\\.[${validChars}]+)?$`, 'i');
+      if (!regex.test(cleanValue)) throw new Error(`Invalid base-${base} number`);
+
+      // Int
+      let intPart = parts[0] || "0";
+      let negative = false;
+      if (intPart.startsWith('-')) {
+        negative = true;
+        intPart = intPart.slice(1);
+      }
+      let integerValue = intPart ? parseInt(intPart, base) : 0;
+      if (isNaN(integerValue)) throw new Error(`Invalid integer part`);
+
+      // Fractional
+      let fractionalValue = 0;
+      if (parts.length > 1 && parts[1]) {
+        const fraction = parts[1].toUpperCase();
+        for (let i = 0; i < fraction.length; i++) {
+          let digit = parseInt(fraction[i], base);
+          if (isNaN(digit)) throw new Error(`Invalid digit: ${fraction[i]}`);
+          fractionalValue += digit / Math.pow(base, i + 1);
+        }
+      }
+      let result = integerValue + fractionalValue;
+      return negative ? -result : result;
+    }
+
+    function convertDecimalToBaseFractional(decimalValue, base, maxFractionalDigits = 10) {
+      const isNegative = decimalValue < 0;
+      let value = Math.abs(decimalValue);
+      let integerPart = Math.floor(value);
+      let integerResult = integerPart === 0 ? '0' : '';
+      while (integerPart > 0) {
+        const rem = integerPart % base;
+        integerResult = (rem < 10 ? rem : String.fromCharCode(55 + rem)) + integerResult;
+        integerPart = Math.floor(integerPart / base);
+      }
+      let fractionalPart = value - Math.floor(value);
+      let fractionalResult = '';
+      if (fractionalPart > 0) {
+        fractionalResult = '.';
+        for (let i = 0; i < maxFractionalDigits && fractionalPart > 0; i++) {
+          fractionalPart *= base;
+          const digit = Math.floor(fractionalPart);
+          fractionalResult += (digit < 10 ? digit : String.fromCharCode(55 + digit));
+          fractionalPart -= digit;
+        }
+      }
+      return (isNegative ? '-' : '') + integerResult + fractionalResult;
+    }
+
+    function parseIntBase(value, base) {
+      const cleanValue = value.replace(/\s/g, '').toUpperCase();
+      if (cleanValue === '') throw new Error('Empty input');
+
+      let validChars = base <= 10
+        ? `0-${base - 1}`
+        : `0-9A-${String.fromCharCode(65 + base - 11)}`;
+      const regex = new RegExp(`^-?[${validChars}]+$`, 'i');
+      if (!regex.test(cleanValue)) throw new Error(`Invalid base-${base} number`);
+      const num = parseInt(cleanValue, base);
+      if (isNaN(num)) throw new Error(`Invalid base-${base} number`);
+      return num;
+    }
+
+    function decimalStringValidation(value) {
+      if (!/^-?\d*\.?\d+$/.test(value)) throw new Error('Invalid decimal number');
+      const num = parseFloat(value);
+      if (isNaN(num)) throw new Error('Invalid decimal number');
+      return num;
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const fromBaseSelect = document.getElementById('from-base');
+      const toBaseSelect = document.getElementById('to-base');
+      const fromBaseValueInput = document.getElementById('from-base-value');
+      const toBaseValueInput = document.getElementById('to-base-value');
+      const fromValueInput = document.getElementById('from-value');
+      const convertBtn = document.getElementById('convert-btn');
+      const converterResultContainer = document.getElementById('converter-result');
+      const converterResultValue = document.getElementById('converter-result-value');
+      const fromError = document.getElementById('from-error');
+
+      const operationBtns = document.querySelectorAll('.operation-btn');
+      const calcBaseSelect = document.getElementById('calc-base');
+      const calcCustomBaseInput = document.getElementById('calc-custom-base');
+      const calcInputContainer = document.getElementById('calc-input-container');
+      const addRowBtn = document.getElementById('add-row-btn');
+      const calculateBtn = document.getElementById('calculate-btn');
+      const calcResultContainer = document.getElementById('calc-result-container');
+      const calcResultValue = document.getElementById('calc-result-value');
+
+      let currentOperation = '+';
+      let currentBase = 10;
+
+      function toggleBaseInput(selectElem, inputElem) {
+        selectElem.value === 'base-x'
+          ? inputElem.classList.remove('hidden')
+          : inputElem.classList.add('hidden');
+      }
+      fromBaseSelect.addEventListener('change', function () {
+        toggleBaseInput(this, fromBaseValueInput);
+      });
+      toBaseSelect.addEventListener('change', function () {
+        toggleBaseInput(this, toBaseValueInput);
+      });
+
+      convertBtn.addEventListener('click', convertNumber);
+      fromValueInput.addEventListener('keyup', function (event) {
+        if (event.key === 'Enter') convertNumber();
+      });
+
+      operationBtns.forEach(btn => {
+        btn.addEventListener('click', function () {
+          operationBtns.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          currentOperation = this.getAttribute('data-operation');
+          updateInputLayout();
+        });
+      });
+
+      calcBaseSelect.addEventListener('change', function () {
+        if (this.value === 'custom') {
+          calcCustomBaseInput.classList.remove('hidden');
+          currentBase = parseInt(calcCustomBaseInput.value) || 10;
+        } else {
+          calcCustomBaseInput.classList.add('hidden');
+          currentBase = parseInt(this.value);
+        }
+        clearCalcResult();
+      });
+
+      calcCustomBaseInput.addEventListener('input', function () {
+        currentBase = parseInt(this.value) || 10;
+        clearCalcResult();
+      });
+
+      addRowBtn.addEventListener('click', function () {
+        if (currentOperation === '+' || currentOperation === '-') {
+          addInputRow();
+        }
+      });
+
+      calculateBtn.addEventListener('click', calculateResult);
+
+      function convertNumber() {
+        fromError.classList.add('hidden');
+        converterResultContainer.classList.add('hidden');
+
+        const fromBase = fromBaseSelect.value;
+        const toBase = toBaseSelect.value;
+        const inputValue = fromValueInput.value.trim();
+
+        if (!inputValue) {
+          showError('Please enter a number to convert');
+          return;
+        }
+        try {
+          let decimalValue;
+
+          // From Base
+          if (fromBase === 'decimal') {
+            decimalValue = decimalStringValidation(inputValue);
+          } else {
+            let base = fromBase === 'binary' ? 2
+              : fromBase === 'octal' ? 8
+                : fromBase === 'hex' ? 16
+                  : fromBase === 'base-x' ? parseInt(fromBaseValueInput.value)
+                    : 10;
+            if (fromBase === 'base-x' && !isValidBase(base)) {
+              showError('Please enter a valid base between 2 and 36');
+              return;
+            }
+            decimalValue = paseBaseFractions(inputValue, base);
+          }
+
+          // To Base
+          let output;
+          if (toBase === 'decimal') {
+            output = decimalValue.toString();
+          } else {
+            let base = toBase === 'binary' ? 2
+              : toBase === 'octal' ? 8
+                : toBase === 'hex' ? 16
+                  : toBase === 'base-x' ? parseInt(toBaseValueInput.value)
+                    : 10;
+            if (toBase === 'base-x' && !isValidBase(base)) {
+              showError('Please enter a valid base between 2 and 36');
+              return;
+            }
+            output = convertDecimalToBaseFractional(decimalValue, base);
+          }
+
+          converterResultValue.textContent = output;
+          converterResultContainer.classList.remove('hidden');
+        } catch (error) {
+          showError(error.message);
+        }
+      }
+
+      function showError(message) {
+        fromError.textContent = message;
+        fromError.classList.remove('hidden');
+      }
+
+      function updateInputLayout() {
+        calcInputContainer.innerHTML = '';
+        clearCalcResult();
+        addRowBtn.classList.add('hidden');
+        if (currentOperation === '+' || currentOperation === '-') {
+          addInputRow(); addInputRow();
+          addRowBtn.classList.remove('hidden');
+        } else {
+          const row = document.createElement('div');
+          row.className = 'input-row';
+          row.innerHTML = `
+                    <input type="text" class="number-input" placeholder="First number">
+                    <div class="operation-sign">${currentOperation === '*' ? '×' : '÷'}</div>
+                    <input type="text" class="number-input" placeholder="Second number">
+                `;
+          calcInputContainer.appendChild(row);
+        }
+      }
+
+      function addInputRow() {
+        const row = document.createElement('div');
+        row.className = 'input-row';
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'remove-row';
+        removeBtn.textContent = '×';
+        removeBtn.addEventListener('click', function () {
+          if (calcInputContainer.children.length > 1) {
+            row.remove();
+            clearCalcResult();
+          }
+        });
+        row.innerHTML = `<div class="operation-sign">${currentOperation}</div>
+                <input type="text" class="number-input" placeholder="Enter number">`;
+        row.appendChild(removeBtn);
+        calcInputContainer.appendChild(row);
+        row.querySelector('.number-input').addEventListener('input', clearCalcResult);
+      }
+
+      function calculateResult() {
+        const inputs = document.querySelectorAll('.number-input');
+        let numbers = [];
+        let isValid = true;
+        inputs.forEach(input => input.classList.remove('input-error'));
+        for (let input of inputs) {
+          const value = input.value.trim();
+          if (value === '') continue;
+          try {
+            numbers.push(parseIntBase(value, currentBase));
+          } catch {
+            isValid = false;
+            input.classList.add('input-error');
+            break;
+          }
+        }
+
+        if (!isValid || numbers.length < (currentOperation === '*' || currentOperation === '/' ? 2 : 1)) {
+          showCalcResult('Please check your inputs', true);
+          return;
+        }
+
+        let result;
+        if (currentOperation === '+') {
+          result = numbers.reduce((a, b) => a + b, 0);
+        } else if (currentOperation === '-') {
+          result = numbers.reduce((a, b, i) => i === 0 ? b : a - b);
+        } else if (currentOperation === '*') {
+          result = numbers[0] * numbers[1];
+        } else if (currentOperation === '/') {
+          if (numbers[1] === 0) {
+            showCalcResult('Cannot divide by zero', true);
+            return;
+          }
+          result = numbers[0] / numbers[1];
+        }
+        showCalcResult(convertDecimalToBaseFractional(result, currentBase, 0), false);
+      }
+
+      function showCalcResult(msg, isError) {
+        calcResultValue.textContent = msg;
+        calcResultValue.style.color = isError ? 'var(--accent-color)' : 'var(--primary-color)';
+        calcResultContainer.classList.remove('hidden');
+      }
+
+      function clearCalcResult() {
+        calcResultContainer.classList.add('hidden');
+      }
+
+      // Initialize
+      updateInputLayout();
+    });
+  </script>
+</body>
+
+</html>
