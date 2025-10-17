@@ -17,7 +17,7 @@
       background-color: #f5f7fa;
       color: #333;
       line-height: 1.6;
-      padding: 20px;
+      padding: 10px;
     }
 
     .container {
@@ -26,12 +26,12 @@
       background-color: white;
       border-radius: 10px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-      padding: 30px;
+      padding: 15px;
     }
 
     .input-section {
       margin-bottom: 10px;
-      padding: 20px;
+      padding: 15px;
       background-color: #f8f9fa;
       border-radius: 8px;
     }
@@ -61,6 +61,13 @@
       outline: none;
     }
 
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
     button {
       background-color: #4a6ee0;
       color: white;
@@ -71,6 +78,8 @@
       font-size: 16px;
       font-weight: 600;
       transition: background-color 0.3s;
+      flex: 1;
+      min-width: 140px;
     }
 
     button:hover {
@@ -84,26 +93,28 @@
     }
 
     .results-section {
-      margin-top: 30px;
+      margin-top: 20px;
     }
 
     .results-header {
       background-color: #4a6ee0;
       color: white;
-      padding: 15px;
+      padding: 12px 15px;
       border-radius: 8px 8px 0 0;
       font-weight: 600;
     }
 
     .results-content {
-      padding: 20px;
+      padding: 15px;
       border: 1px solid #ddd;
       border-top: none;
       border-radius: 0 0 8px 8px;
       background-color: white;
-      min-height: 200px;
-      max-height: 500px;
+      min-height: 150px;
+      max-height: 60vh;
       overflow-y: auto;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
     }
 
     .step {
@@ -117,7 +128,8 @@
     .step-header {
       font-weight: 600;
       color: #2c3e50;
-      margin-bottom: 5px;
+      margin-bottom: 8px;
+      font-size: 16px;
     }
 
     .step-content {
@@ -126,16 +138,20 @@
       background-color: #f8f9fa;
       padding: 10px;
       border-radius: 4px;
-      margin-bottom: 5px;
+      margin-bottom: 8px;
+      font-size: 14px;
+      overflow-x: auto;
     }
 
     .factorization-step {
       font-family: monospace;
       background-color: #e8f4fd;
-      padding: 8px 12px;
+      padding: 8px 10px;
       border-radius: 4px;
       margin: 5px 0;
       border-left: 3px solid #4a6ee0;
+      font-size: 14px;
+      overflow-x: auto;
     }
 
     .root-item {
@@ -163,6 +179,9 @@
       color: #e74c3c;
       font-weight: 600;
       margin-top: 10px;
+      padding: 10px;
+      background-color: #fdeded;
+      border-radius: 4px;
     }
 
     .loading {
@@ -189,11 +208,58 @@
 
     .toggle-button {
       background-color: #7f8c8d;
-      margin-left: 10px;
     }
 
     .toggle-button:hover {
       background-color: #6c7b7d;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 5px;
+      }
+
+      .container {
+        padding: 10px;
+        border-radius: 8px;
+      }
+
+      .input-section {
+        padding: 10px;
+      }
+
+      .button-group {
+        flex-direction: column;
+      }
+
+      button {
+        width: 100%;
+        min-width: auto;
+      }
+
+      .results-content {
+        padding: 10px;
+        max-height: 50vh;
+      }
+
+      .step-content,
+      .factorization-step {
+        font-size: 13px;
+        padding: 8px;
+      }
+    }
+
+    @media (max-width: 360px) {
+
+      .step-content,
+      .factorization-step {
+        font-size: 12px;
+      }
+
+      button {
+        padding: 10px 15px;
+        font-size: 14px;
+      }
     }
   </style>
 </head>
