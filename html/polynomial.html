@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Polynomial Root</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f5f7fa;
+      color: #333;
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+    }
+
+    .input-section {
+      margin-bottom: 10px;
+      padding: 20px;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+    }
+
+    .input-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
+
+    input[type="text"]:focus {
+      border-color: #4a6ee0;
+      outline: none;
+    }
+
+    button {
+      background-color: #4a6ee0;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #3a5bc7;
+    }
+
+    .examples {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #7f8c8d;
+    }
+
+    .results-section {
+      margin-top: 30px;
+    }
+
+    .results-header {
+      background-color: #4a6ee0;
+      color: white;
+      padding: 15px;
+      border-radius: 8px 8px 0 0;
+      font-weight: 600;
+    }
+
+    .results-content {
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+      background-color: white;
+      min-height: 200px;
+      max-height: 500px;
+      overflow-y: auto;
+    }
+
+    .step {
+      border-bottom: 1px dashed #eee;
+    }
+
+    .step:last-child {
+      border-bottom: none;
+    }
+
+    .step-header {
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 5px;
+    }
+
+    .step-content {
+      font-family: monospace;
+      white-space: pre-wrap;
+      background-color: #f8f9fa;
+      padding: 10px;
+      border-radius: 4px;
+      margin-bottom: 5px;
+    }
+
+    .factorization-step {
+      font-family: monospace;
+      background-color: #e8f4fd;
+      padding: 8px 12px;
+      border-radius: 4px;
+      margin: 5px 0;
+      border-left: 3px solid #4a6ee0;
+    }
+
+    .root-item {
+      margin-bottom: 8px;
+      padding-left: 15px;
+      position: relative;
+    }
+
+    .root-item:before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #4a6ee0;
+    }
+
+    .summary {
+      margin-top: 15px;
+      padding: 10px;
+      background-color: #e8f4fd;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .error {
+      color: #e74c3c;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 20px;
+      color: #7f8c8d;
+    }
+
+    .spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-left-color: #4a6ee0;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 10px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .toggle-button {
+      background-color: #7f8c8d;
+      margin-left: 10px;
+    }
+
+    .toggle-button:hover {
+      background-color: #6c7b7d;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <div class="input-section">
+      <div class="input-group">
+        <label for="polynomial-input">Polynomial Equation:</label>
+        <input type="text" id="polynomial-input" placeholder="e.g., 8x^5 - 26x^4 - 163x^3 - 295x^2 - 232x - 42 = 0">
+        <div class="examples">
+          Examples: 8x^5 - 26x^4 - 163x^3 - 295x^2 - 232x - 42 = 0, x^3 - 6x^2 + 11x - 6 = 0
+        </div>
+      </div>
+      <button id="solve-button">Solve Polynomial</button>
+      <button id="toggle-steps" class="toggle-button" style="display: none;">Step-by-Step Factorization</button>
+    </div>
+
+    <div class="results-section">
+      <div class="results-header">Results</div>
+      <div class="results-content" id="results-content">
+        <div class="loading" id="initial-message">
+          Enter a polynomial equation and click "Solve Polynomial".
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    class PolynomialRootFinder {
+      constructor() {
+        this.coefficients = [];
+        this.degree = 0;
+        this.steps = [];
+      }
+
+      parsePolynomial(equationStr) {
+        equationStr = equationStr.replace(/\s/g, "").toLowerCase();
+
+        // Remove =0 if present
+        if (equationStr.includes("=0")) {
+          equationStr = equationStr.split("=0")[0];
+        }
+
+        // Find maximum degree
+        let maxDegree = 0;
+        const termRegex = /([+-]?\d*\.?\d*)x\^?(\d*)/g;
+        let match;
+
+        while ((match = termRegex.exec(equationStr)) !== null) {
+          let [, coef, deg] = match;
+          if (deg === '') deg = '1';
+          if (deg !== '') {
+            maxDegree = Math.max(maxDegree, parseInt(deg));
+          }
+        }
+
+        this.degree = maxDegree;
+        this.coefficients = new Array(this.degree + 1).fill(0);
+
+        // Parse const
+        const constantMatch = equationStr.match(/([+-]?\d+)(?!.*x)/);
+        if (constantMatch) {
+          this.coefficients[0] = parseFloat(constantMatch[1]);
+        }
+
+        // Parse all terms
+        termRegex.lastIndex = 0;
+        while ((match = termRegex.exec(equationStr)) !== null) {
+          let [, coef, deg] = match;
+
+          // Determine coefficient value
+          let coefVal;
+          if (coef === '' || coef === '+') {
+            coefVal = 1.0;
+          } else if (coef === '-') {
+            coefVal = -1.0;
+          } else {
+            coefVal = coef ? parseFloat(coef) : 1.0;
+          }
+
+          // Determine degree
+          let degVal = deg === '' ? 1 : parseInt(deg);
+
+          this.coefficients[degVal] = coefVal;
+        }
+      }
+
+      evaluatePoly(x) {
+        let result = 0;
+        for (let i = 0; i < this.coefficients.length; i++) {
+          result += this.coefficients[i] * Math.pow(x, i);
+        }
+        return result;
+      }
+
+      findRationalRoots() {
+        if (this.coefficients.length === 0) return [];
+
+        const constant = this.coefficients[0];
+        const leading = this.coefficients[this.degree];
+
+        // Find factors of constant
+        const factorsConstant = new Set();
+        const constantInt = Math.abs(Math.round(constant));
+        for (let i = 1; i <= constantInt; i++) {
+          if (constantInt % i === 0) {
+            factorsConstant.add(i);
+            factorsConstant.add(-i);
+          }
+        }
+
+        // factor of leading coeff
+        const factorsLeading = new Set();
+        const leadingInt = Math.abs(Math.round(leading));
+        for (let i = 1; i <= leadingInt; i++) {
+          if (leadingInt % i === 0) {
+            factorsLeading.add(i);
+            factorsLeading.add(-i);
+          }
+        }
+
+        // possible rational roots
+        const possibleRoots = new Set();
+        factorsConstant.forEach(p => {
+          factorsLeading.forEach(q => {
+            if (q !== 0) {
+              possibleRoots.add(p / q);
+            }
+          });
+        });
+
+        // Test possible roots
+        const rationalRoots = [];
+        const tolerance = 1e-10;
+
+        const sortedRoots = Array.from(possibleRoots).sort((a, b) => {
+          const denomA = this.floatToFraction(a)?.denominator || 1000;
+          const denomB = this.floatToFraction(b)?.denominator || 1000;
+          return denomA - denomB || Math.abs(a) - Math.abs(b);
+        });
+
+        for (const root of sortedRoots) {
+          const value = this.evaluatePoly(root);
+          if (Math.abs(value) < tolerance) {
+            rationalRoots.push(root);
+          }
+        }
+
+        return rationalRoots;
+      }
+
+      polynomialDivision(coefficients, root) {
+        const n = coefficients.length - 1;
+        const quotient = new Array(n).fill(0);
+        let remainder = coefficients[n];
+
+        for (let i = n - 1; i >= 0; i--) {
+          quotient[i] = remainder;
+          remainder = coefficients[i] + remainder * root;
+        }
+
+        return quotient;
+      }
+
+      formatPolynomial(coefficients) {
+        const terms = [];
+        for (let i = coefficients.length - 1; i >= 0; i--) {
+          const coef = coefficients[i];
+          if (Math.abs(coef) > 1e-10) {
+            if (i === 0) {
+              terms.push(`${this.formatNumber(coef)}`);
+            } else if (i === 1) {
+              terms.push(`${this.formatNumber(coef)}x`);
+            } else {
+              terms.push(`${this.formatNumber(coef)}x^${i}`);
+            }
+          }
+        }
+
+        if (terms.length === 0) return "0";
+
+        let result = terms[0];
+        for (let i = 1; i < terms.length; i++) {
+          if (terms[i].startsWith('-')) {
+            result += ` ${terms[i]}`;
+          } else {
+            result += ` + ${terms[i]}`;
+          }
+        }
+
+        return result;
+      }
+
+      formatPolynomialSimple(coefficients) {
+        const terms = [];
+        for (let i = coefficients.length - 1; i >= 0; i--) {
+          const coef = coefficients[i];
+          if (Math.abs(coef) > 1e-10) {
+            if (i === 0) {
+              terms.push(`${coef}`);
+            } else if (i === 1) {
+              terms.push(`${coef}x`);
+            } else {
+              terms.push(`${coef}x^${i}`);
+            }
+          }
+        }
+
+        if (terms.length === 0) return "0";
+
+        let result = terms[0];
+        for (let i = 1; i < terms.length; i++) {
+          if (terms[i].startsWith('-')) {
+            result += terms[i];
+          } else {
+            result += "+" + terms[i];
+          }
+        }
+
+        return this.fixSigns(result);
+      }
+
+      fixSigns(expr) {
+        expr = expr.replace(/--/g, '+');
+        expr = expr.replace(/\+-/g, '-');
+        expr = expr.replace(/-\+/g, '-');
+        return expr;
+      }
+
+      formatNumber(x) {
+        // Try to format as fraction
+        const frac = this.floatToFraction(x);
+        if (frac) {
+          if (frac.denominator === 1) {
+            return `${frac.numerator}`;
+          } else {
+            return `${frac.numerator}/${frac.denominator}`;
+          }
+        }
+
+        // Otherwise as decimal
+        return x.toFixed(8).replace(/\.?0+$/, '');
+      }
+
+      floatToFraction(x, maxDenominator = 1000) {
+        if (Math.abs(x) < 1e-10) return { numerator: 0, denominator: 1 };
+
+        const sign = x < 0 ? -1 : 1;
+        x = Math.abs(x);
+
+        let bestNumerator = 0;
+        let bestDenominator = 1;
+        let bestError = Math.abs(x);
+
+        for (let denominator = 1; denominator <= maxDenominator; denominator++) {
+          const numerator = Math.round(x * denominator);
+          const error = Math.abs(x - numerator / denominator);
+
+          if (error < bestError) {
+            bestError = error;
+            bestNumerator = numerator;
+            bestDenominator = denominator;
+          }
+
+          if (bestError < 1e-10) break;
+        }
+
+        if (bestError < 1e-10) {
+          return {
+            numerator: sign * bestNumerator,
+            denominator: bestDenominator
+          };
+        }
+
+        return null;
+      }
+
+      formatComplexNumber(real, imag) {
+        const realStr = this.formatNumber(real);
+        const imagStr = this.formatNumber(Math.abs(imag));
+        const sign = imag >= 0 ? '+' : '-';
+        return `${realStr} ${sign} ${imagStr}i`;
+      }
+
+      formatFactorRoot(root) {
+        const frac = this.floatToFraction(root);
+        let val;
+        if (frac && Math.abs(frac.numerator / frac.denominator - root) < 1e-10) {
+          val = frac.denominator === 1 ? `${frac.numerator}` : `${frac.numerator}/${frac.denominator}`;
+        } else {
+          val = root.toFixed(8).replace(/\.?0+$/, '');
+        }
+
+        if (Math.abs(root) < 1e-10) {
+          return "x";
+        } else if (root < 0) {
+          return `(x+${val.replace('-', '')})`;
+        } else {
+          return `(x-${val})`;
+        }
+      }
+
+      showFactorizationStep(coefficients, root) {
+        const n = coefficients.length - 1;
+        const rootValue = root;
+        const factorStr = this.formatFactorRoot(rootValue);
+
+        let terms = [];
+        let currentCoeff = coefficients[n];
+
+        for (let i = n - 1; i >= 0; i--) {
+          const termCoeff = currentCoeff;
+          if (Math.abs(termCoeff) > 1e-10) {
+            const factorTerm = this.formatFactorRoot(rootValue);
+            if (i === 0) {
+              terms.push(`${Math.abs(termCoeff)}${factorTerm}`);
+            } else if (i === 1) {
+              terms.push(`${Math.abs(termCoeff)}x${factorTerm}`);
+            } else {
+              terms.push(`${Math.abs(termCoeff)}x^${i}${factorTerm}`);
+            }
+          }
+          currentCoeff = coefficients[i] + currentCoeff * rootValue;
+        }
+
+        let result = terms[0];
+        for (let i = 1; i < terms.length; i++) {
+          if (terms[i].startsWith('-')) {
+            result += terms[i];
+          } else {
+            result += "+" + terms[i];
+          }
+        }
+
+        result = this.fixSigns(result);
+
+        const quotientCoeffs = this.polynomialDivision(coefficients, rootValue);
+        const quotientStr = this.formatPolynomialSimple(quotientCoeffs);
+
+        return {
+          expansion: `> ${result}=0`,
+          factorization: `> ${factorStr}(${quotientStr})=0`
+        };
+      }
+
+      findRootsQuadratic(a, b, c) {
+        const discriminant = b * b - 4 * a * c;
+
+        if (discriminant >= 0) {
+          const root1 = (-b + Math.sqrt(discriminant)) / (2 * a);
+          const root2 = (-b - Math.sqrt(discriminant)) / (2 * a);
+          return [root1, root2];
+        } else {
+          const realPart = -b / (2 * a);
+          const imagPart = Math.sqrt(-discriminant) / (2 * a);
+          return [
+            { real: realPart, imag: imagPart },
+            { real: realPart, imag: -imagPart }
+          ];
+        }
+      }
+
+      findAllRoots() {
+        if (this.coefficients.length === 0) return [];
+        const roots = [];
+        const rationalRoots = this.findRationalRoots();
+
+        // Use rational roots when available
+        if (rationalRoots.length > 0) {
+          roots.push(...rationalRoots);
+
+          // Reduce polynomial by dividing out the found roots
+          let currentCoeffs = [...this.coefficients];
+          for (const root of rationalRoots) {
+            currentCoeffs = this.polynomialDivision(currentCoeffs, root);
+          }
+
+          // Find remaining roots from reduced polynomial
+          if (currentCoeffs.length > 1) {
+            const reducedFinder = new PolynomialRootFinder();
+            reducedFinder.coefficients = currentCoeffs;
+            reducedFinder.degree = currentCoeffs.length - 1;
+            const remainingRoots = reducedFinder.findAllRoots();
+            roots.push(...remainingRoots);
+          }
+        } else {
+          // numerical methods for higher degree polynomials
+          if (this.degree === 1) {
+            // Linear equation
+            roots.push(-this.coefficients[0] / this.coefficients[1]);
+          } else if (this.degree === 2) {
+            // Quadratic equation
+            const quadraticRoots = this.findRootsQuadratic(
+              this.coefficients[2],
+              this.coefficients[1],
+              this.coefficients[0]
+            );
+            roots.push(...quadraticRoots);
+          } else {
+            // Try to find real roots by scanning
+            const step = 0.1;
+            for (let x = -10; x <= 10; x += step) {
+              const y1 = this.evaluatePoly(x);
+              const y2 = this.evaluatePoly(x + step);
+
+              if (y1 * y2 <= 0) {
+                let left = x;
+                let right = x + step;
+
+                for (let i = 0; i < 20; i++) {
+                  const mid = (left + right) / 2;
+                  const yMid = this.evaluatePoly(mid);
+
+                  if (Math.abs(yMid) < 1e-10) {
+                    roots.push(mid);
+                    break;
+                  } else if (y1 * yMid < 0) {
+                    right = mid;
+                  } else {
+                    left = mid;
+                  }
+
+                  if (i === 19) {
+                    roots.push(mid);
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        return roots;
+      }
+
+      factorPolynomialStepByStep(coefficients, depth = 0) {
+        const steps = [];
+
+        if (coefficients.length <= 1) {
+          return steps;
+        }
+
+        const polyStr = this.formatPolynomial(coefficients);
+        steps.push({
+          type: 'step',
+          content: `Step ${depth + 1}: Solving ${polyStr} = 0`
+        });
+
+        if (coefficients.length === 2) {
+          // Linear equation
+          const root = -coefficients[0] / coefficients[1];
+          steps.push({
+            type: 'solution',
+            content: `Linear equation: x = ${this.formatNumber(root)}`
+          });
+          return steps;
+        } else if (coefficients.length === 3) {
+          // Quadratic equation
+          const a = coefficients[2];
+          const b = coefficients[1];
+          const c = coefficients[0];
+
+          const roots = this.findRootsQuadratic(a, b, c);
+
+          if (roots[0].real !== undefined) {
+            // Complex roots
+            steps.push({
+              type: 'solution',
+              content: `Complex roots: x = ${this.formatComplexNumber(roots[0].real, roots[0].imag)}`
+            });
+            steps.push({
+              type: 'solution',
+              content: `Complex roots: x = ${this.formatComplexNumber(roots[1].real, roots[1].imag)}`
+            });
+          } else {
+            // Real roots
+            steps.push({
+              type: 'solution',
+              content: `Quadratic roots: x = ${this.formatNumber(roots[0])}, ${this.formatNumber(roots[1])}`
+            });
+          }
+
+          return steps;
+        }
+
+        // find rational roots
+        const tempFinder = new PolynomialRootFinder();
+        tempFinder.coefficients = coefficients;
+        tempFinder.degree = coefficients.length - 1;
+        const rationalRoots = tempFinder.findRationalRoots();
+
+        if (rationalRoots.length > 0) {
+          const root = rationalRoots[0];
+          const rootStr = this.formatNumber(root);
+
+          steps.push({
+            type: 'rational',
+            content: `Found rational root: x = ${rootStr}`
+          });
+
+          steps.push({
+            type: 'factor',
+            content: `Using Factor Theorem: f(${rootStr}) = 0`
+          });
+
+          // detailed factorization steps
+          const factorizationSteps = this.showFactorizationStep(coefficients, root);
+          steps.push({
+            type: 'factorization',
+            content: factorizationSteps.expansion
+          });
+          steps.push({
+            type: 'factorization',
+            content: factorizationSteps.factorization
+          });
+
+          // Recursively factor the quotient
+          const quotientCoeffs = this.polynomialDivision(coefficients, root);
+          const subSteps = this.factorPolynomialStepByStep(quotientCoeffs, depth + 1);
+          steps.push(...subSteps);
+        } else {
+          steps.push({
+            type: 'info',
+            content: 'No rational roots found. Finding all roots numerically...'
+          });
+
+          const allRoots = this.findAllRoots();
+          const realRoots = allRoots.filter(r => typeof r === 'number' || Math.abs(r.imag) < 1e-10);
+          const complexRoots = allRoots.filter(r => typeof r !== 'number' && Math.abs(r.imag) >= 1e-10);
+
+          if (realRoots.length > 0) {
+            const realStrs = realRoots.map(r =>
+              typeof r === 'number' ? this.formatNumber(r) : this.formatNumber(r.real)
+            );
+            steps.push({
+              type: 'solution',
+              content: `Real roots: ${realStrs.join(', ')}`
+            });
+          }
+
+          if (complexRoots.length > 0) {
+            steps.push({
+              type: 'solution',
+              content: `Complex roots: ${complexRoots.map(r =>
+                this.formatComplexNumber(r.real, r.imag)
+              ).join(', ')}`
+            });
+          }
+        }
+
+        return steps;
+      }
+    }
+
+    const polynomialInput = document.getElementById('polynomial-input');
+    const solveButton = document.getElementById('solve-button');
+    const toggleStepsButton = document.getElementById('toggle-steps');
+    const resultsContent = document.getElementById('results-content');
+    const initialMessage = document.getElementById('initial-message');
+    let currentSteps = [];
+    let showingSteps = false;
+    solveButton.addEventListener('click', solvePolynomial);
+    toggleStepsButton.addEventListener('click', toggleStepByStep);
+    polynomialInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        solvePolynomial();
+      }
+    });
+
+    function solvePolynomial() {
+      const equationStr = polynomialInput.value.trim();
+
+      if (!equationStr) {
+        showError('Please enter a polynomial equation.');
+        return;
+      }
+
+      resultsContent.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <div>Solving polynomial equation...</div>
+                </div>
+            `;
+
+      setTimeout(() => {
+        try {
+          const finder = new PolynomialRootFinder();
+          finder.parsePolynomial(equationStr);
+
+          const roots = finder.findAllRoots();
+          currentSteps = finder.factorPolynomialStepByStep(finder.coefficients);
+
+          displayResults(equationStr, roots, finder);
+          toggleStepsButton.style.display = 'inline-block';
+          showingSteps = false;
+        } catch (error) {
+          showError(`Error solving polynomial: ${error.message}`);
+          console.error(error);
+        }
+      }, 100);
+    }
+
+    function displayResults(equationStr, roots, finder) {
+      let html = `
+                <div class="step">
+                    <div class="step-header">Solving: ${equationStr}</div>
+                    <div class="step-content">Polynomial degree: ${finder.degree}</div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-header">All Roots:</div>
+            `;
+
+      const realRoots = roots.filter(r => typeof r === 'number' || Math.abs(r.imag) < 1e-10);
+      const complexRoots = roots.filter(r => typeof r !== 'number' && Math.abs(r.imag) >= 1e-10);
+
+      if (realRoots.length > 0) {
+        html += '<div class="step-content">Real Roots:</div>';
+        realRoots.forEach((root, index) => {
+          const rootValue = typeof root === 'number' ? root : root.real;
+          html += `<div class="root-item">Root ${index + 1}: x = ${finder.formatNumber(rootValue)}</div>`;
+        });
+      }
+
+      if (complexRoots.length > 0) {
+        html += '<div class="step-content">Complex Roots:</div>';
+        complexRoots.forEach((root, index) => {
+          html += `<div class="root-item">Root ${realRoots.length + index + 1}: x = ${finder.formatComplexNumber(root.real, root.imag)}</div>`;
+        });
+      }
+
+      html += `
+                </div>
+                <div class="summary">
+                    Summary: ${realRoots.length} real roots, ${complexRoots.length} complex roots
+                </div>
+            `;
+
+      resultsContent.innerHTML = html;
+    }
+
+    function toggleStepByStep() {
+      if (showingSteps) {
+        solvePolynomial();
+      } else {
+        showingSteps = true;
+        toggleStepsButton.textContent = 'Back to Results';
+
+        let html = `
+                    <div class="step">
+                        <div class="step-header">Step-by-Step Factorization</div>
+                    </div>
+                `;
+
+        currentSteps.forEach(step => {
+          if (step.type === 'factorization') {
+            html += `
+                            <div class="step">
+                                <div class="factorization-step">${step.content}</div>
+                            </div>
+                        `;
+          } else {
+            let stepClass = 'step-content';
+            if (step.type === 'solution') stepClass += ' solution';
+            if (step.type === 'rational') stepClass += ' rational';
+            if (step.type === 'factor') stepClass += ' factor';
+
+            html += `
+                            <div class="step">
+                                <div class="${stepClass}">${step.content}</div>
+                            </div>
+                        `;
+          }
+        });
+
+        resultsContent.innerHTML = html;
+      }
+    }
+
+    function showError(message) {
+      resultsContent.innerHTML = `
+                <div class="error">${message}</div>
+            `;
+      toggleStepsButton.style.display = 'none';
+    }
+  </script>
+</body>
+
+</html>
