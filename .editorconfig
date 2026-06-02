@@ -1,0 +1,52 @@
+# EditorConfig helps maintain consistent coding styles across different editors and IDEs
+# See https://editorconfig.org for more details
+
+root = true
+
+# All files
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Python files
+[*.py]
+indent_style = space
+indent_size = 4
+max_line_length = 88
+
+# Go files
+[*.go]
+indent_style = tab
+indent_size = 1
+
+# Bash/Shell files
+[*.{sh,bash}]
+indent_style = space
+indent_size = 2
+
+# JavaScript files
+[*.{js,jsx}]
+indent_style = space
+indent_size = 2
+
+# JSON files
+[*.json]
+indent_style = space
+indent_size = 2
+
+# YAML files
+[*.{yml,yaml}]
+indent_style = space
+indent_size = 2
+
+# Markdown files
+[*.md]
+max_line_length = off
+trim_trailing_whitespace = false
+
+# PHP files
+[*.php]
+indent_style = space
+indent_size = 4
