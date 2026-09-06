@@ -1,46 +1,72 @@
 {
+    "workbench.iconTheme": "vscode-modern-icons",
+    "workbench.colorTheme": "One Dark Pro Night Flat",
 
-    "workbench.colorTheme": "Tomorrow Night",
-    "workbench.iconTheme": "material-icon-theme",
-    "material-icon-theme.folders.color": "#7cb342",
-
-    "editor.fontFamily": "'Rec Mono Casual', 'Fantasque Sans Mono Regular', 'JetBrains Mono Regular', 'mononoki Regular'",
-    "editor.fontSize": 17,
-    "editor.fontWeight": "300",
-    "editor.lineHeight": 20,
-    "editor.letterSpacing": 0.5,
-
-    "window.titleBarStyle": "native",
-    "window.title": "${dirty}${activeEditorShort}${separator}${folderName}${separator}Code",
-    "window.titleSeparator": " - ",
-    "editor.wordWrap": "on",
+    "editor.fontFamily": "'Monaspace Krypton NF', 'Monaspace Argon NF', 'RecMonoCasual Nerd Font', 'JetBrainsMono Nerd Font'",
+    "editor.fontSize": 16,
     "editor.fontLigatures": true,
-    "editor.formatOnPaste": false,
-    "editor.cursorBlinking": "smooth",
-    "security.workspace.trust.enabled": false,
-    
-    "update.mode": "none",
+    "editor.wordWrap": "on",
+    "editor.wordWrapColumn": 120,
+    "editor.cursorStyle": "line",
+    "editor.cursorBlinking": "phase",
+    "editor.smoothScrolling": true,
+    "editor.mouseWheelZoom": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": false,
+    "editor.insertSpaces": true,
+    "editor.linkedEditing": true,
+    "editor.autoClosingQuotes": "always",
+    "editor.inlineSuggest.enabled": true,
+    "editor.suggestSelection": "first",
+    "editor.quickSuggestions": {
+        "comments": "on",
+        "strings": "on",
+        "other": "on"
+    },
+
+    "files.autoSave": "afterDelay",
+    "files.trimTrailingWhitespace": true,
     "explorer.confirmDelete": false,
     "workbench.startupEditor": "none",
     "workbench.editor.enablePreview": false,
-    "workbench.preferredDarkColorTheme": "Tomorrow Night",
     "workbench.tips.enabled": false,
+    "workbench.experimental.modernUI": true,
+
+    "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font",
+    "terminal.integrated.lineHeight": 1.28,
+    "terminal.integrated.fontSize": 15,
+    "terminal.integrated.fontLigatures.enabled": true,
+    "terminal.integrated.mouseWheelZoom": true,
+    "terminal.integrated.defaultProfile.windows": "Command Prompt",
+
+    "security.workspace.trust.enabled": false,
     "security.workspace.trust.untrustedFiles": "open",
+
+    "update.mode": "none",
+    "update.enableWindowsBackgroundUpdates": false,
+    "telemetry.telemetryLevel": "off",
+    "telemetry.feedback.enabled": false,
+    "terminal.integrated.gpuAcceleration": "off",
+
+    // AI Features
+    "chat.disableAIFeatures": true,
+    "chat.agent.enabled": false,
+    "terminal.integrated.initialHint": false,
 
     "notebook.lineNumbers": "on",
     "notebook.compactView": false,
     "notebook.showFoldingControls": "always",
     "notebook.cellToolbarVisibility": "hover",
     "notebook.consolidatedRunButton": true,
-    "jupyter.pylanceHandlesNotebooks": true,
 
-    "liveServer.settings.CustomBrowser": "chrome:PrivateMode",
-    "liveServer.settings.donotVerifyTags": true,
-    "liveServer.settings.donotShowInfoMsg": true,
     "background.windowBackgrounds": [
-        "d:/Wallpaper/59.jpg"
+        "c:/Users/Catz/Pictures/Wallpaper/002.jpg"
     ],
-    "window.menuBarVisibility": "hidden",
-    "editor.inlineSuggest.enabled": true,
+
+    "code-runner.enableAppInsights": false,
+    "code-runner.fileDirectoryAsCwd": true,
+    "code-runner.ignoreSelection": true,
+    "code-runner.runInTerminal": true,
+    "code-runner.showRunCommandInExplorerContextMenu": false,
 
 }
