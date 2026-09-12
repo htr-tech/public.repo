@@ -172,6 +172,11 @@
     <td><a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.Theme-TomorrowKit">Marketplace</a></td>
     <td><a href="https://github.com/Microsoft/vscode-themes">Github</a></td>
   </tr>
+  <tr>
+    <td>Ayu</td>
+    <td><a href="https://marketplace.visualstudio.com/items?itemName=teabyii.ayu">Marketplace</a></td>
+    <td><a href="https://github.com/ayu-theme/vscode-ayu">Github</a></td>
+  </tr>
 </table>
 
 <br>
@@ -196,6 +201,10 @@
   <tr>
     <td>Recursive</td>
     <td><a href="https://github.com/arrowtype/recursive">Github</a></td>
+  </tr>
+  <tr>
+    <td>Monaspace (Krypton, Argon)</td>
+    <td><a href="https://github.com/githubnext/monaspace">Github</a></td>
   </tr>
 </table>
 
