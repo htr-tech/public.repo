@@ -206,6 +206,10 @@
     <td>Monaspace (Krypton, Argon)</td>
     <td><a href="https://github.com/githubnext/monaspace">Github</a></td>
   </tr>
+  <tr>
+    <td>Comic Shanns Mono</td>
+    <td><a href="https://github.com/jesusmgg/comic-shanns-mono">Github</a></td>
+  </tr>
 </table>
 
 <!--

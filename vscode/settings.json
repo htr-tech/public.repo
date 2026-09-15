@@ -1,8 +1,9 @@
 {
     "workbench.iconTheme": "vscode-modern-icons",
-    "workbench.colorTheme": "Ayu Dark Bordered",
+    "workbench.colorTheme": "Dark 2026",
 
-    "editor.fontFamily": "'Monaspace Krypton NF', 'Monaspace Argon NF', 'RecMonoCasual Nerd Font', 'JetBrainsMono Nerd Font'",
+    "editor.fontFamily": "'Monaspace Krypton NF', 'ComicShannsMono Nerd Font', 'Monaspace Argon NF', 'RecMonoCasual Nerd Font', 'JetBrainsMono Nerd Font'",
+
     "editor.fontSize": 16,
     "editor.fontLigatures": true,
     "editor.wordWrap": "on",
@@ -11,9 +12,11 @@
     "editor.cursorBlinking": "phase",
     "editor.smoothScrolling": true,
     "editor.mouseWheelZoom": true,
-    "editor.formatOnPaste": true,
+    "editor.formatOnPaste": false,
     "editor.formatOnSave": false,
-    "editor.insertSpaces": true,
+    // "editor.insertSpaces": true,
+    "editor.tabSize": 4,
+    "editor.detectIndentation": true,
     "editor.linkedEditing": true,
     "editor.autoClosingQuotes": "always",
     "editor.inlineSuggest.enabled": true,
@@ -25,7 +28,7 @@
     },
 
     "files.autoSave": "afterDelay",
-    "files.trimTrailingWhitespace": true,
+    // "files.trimTrailingWhitespace": true,
     "explorer.confirmDelete": false,
     "workbench.startupEditor": "none",
     "workbench.editor.enablePreview": false,
@@ -37,11 +40,11 @@
     "terminal.integrated.fontSize": 15,
     "terminal.integrated.fontLigatures.enabled": true,
     "terminal.integrated.mouseWheelZoom": true,
-    "terminal.integrated.defaultProfile.windows": "Command Prompt",
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
 
     "security.workspace.trust.enabled": false,
     "security.workspace.trust.untrustedFiles": "open",
-
+    
     "update.mode": "none",
     "update.enableWindowsBackgroundUpdates": false,
     "telemetry.telemetryLevel": "off",
@@ -64,9 +67,33 @@
     ],
 
     "code-runner.enableAppInsights": false,
-    "code-runner.fileDirectoryAsCwd": true,
+    "code-runner.clearPreviousOutput": true,
+    "code-runner.fileDirectoryAsCwd": false,
     "code-runner.ignoreSelection": true,
     "code-runner.runInTerminal": true,
     "code-runner.showRunCommandInExplorerContextMenu": false,
-
+    
+    "terminal.integrated.profiles.windows": {
+        "PowerShell": {
+            "path": "C:\\Users\\Catz\\AppData\\Local\\Microsoft\\WindowsApps\\Microsoft.PowerShell_8wekyb3d8bbwe\\pwsh.exe"
+        },
+        "Command Prompt": {
+            "path": [
+                "${env:windir}\\Sysnative\\cmd.exe",
+                "${env:windir}\\System32\\cmd.exe"
+            ],
+            "args": [],
+            "icon": "terminal-cmd"
+        },
+        "Git Bash": {
+            "source": "Git Bash",
+            "icon": "terminal-git-bash",
+            "path": "C:\\Program Files\\Git\\bin\\bash.exe",
+            "args": [
+                "--login",
+                "-i"
+            ]
+        }
+    },
+    
 }
